@@ -1,357 +1,433 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UJADI v619 - Quiz com Pódio</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:Arial,sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);padding:10px;min-height:100vh}
-.card{background:white;border-radius:15px;padding:25px;max-width:650px;margin:0 auto;box-shadow:0 10px 30px rgba(0,0,0,0.2)}
-h2{text-align:center;margin-bottom:20px;color:#333}
-.btn-grande{width:100%;padding:14px;margin:8px 0;border:none;border-radius:8px;font-size:16px;font-weight:bold;cursor:pointer;transition:0.3s}
-.btn-grande:hover{transform:scale(1.02)}
-.btn-verde{background:#28a745;color:white}
-.btn-cinza{background:#6c757d;color:white}
-.btn-vermelho{background:#dc3545;color:white}
-.btn-azul{background:#007bff;color:white}
-.btn-opcao{width:100%;padding:12px;margin:6px 0;border:2px solid #ddd;background:white;border-radius:8px;text-align:left;font-size:15px;cursor:pointer;transition:0.2s}
-.btn-opcao:hover{background:#f8f9fa;border-color:#007bff}
-.btn-opcao.correta{background:#d4edda;border-color:#28a745}
-.btn-opcao.errada{background:#f8d7da;border-color:#dc3545}
-input[type="text"],input[type="password"],textarea{width:100%;padding:10px;margin:5px 0;border:2px solid #ddd;border-radius:5px;font-size:15px}
-.ranking-item{display:flex;justify-content:space-between;padding:12px;border-bottom:1px solid #eee;font-size:15px}
-.ranking-item:nth-child(1){background:#fff3cd;font-weight:bold}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UJADI v618</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+        }
 
-/* PÓDIO TOP 3 */
-.podio{display:flex;justify-content:center;align-items:flex-end;gap:12px;margin:25px 0 30px 0;padding:10px}
-.podio-item{text-align:center;width:32%}
-.podio-coluna{border-radius:10px 10px 0 0;padding:12px 5px;color:white;font-weight:bold;box-shadow:0 4px 8px rgba(0,0,0,0.2)}
-.podio-1{height:130px;background:linear-gradient(180deg,#FFD700,#FFA500);order:2}
-.podio-2{height:100px;background:linear-gradient(180deg,#C0C0C0,#A9A9A9);order:1}
-.podio-3{height:80px;background:linear-gradient(180deg,#CD7F32,#A0522D);order:3}
-.podio-nome{font-size:14px;font-weight:600;margin-top:10px;color:#333;word-break:break-word;min-height:40px}
-.podio-pontos{font-size:12px;color:#666;font-weight:bold}
-.medalha{font-size:28px;margin-bottom:5px}
+        body::before {
+            content: '22';
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 50vw;
+            font-weight: 900;
+            color: rgba(0,0,0,0.05);
+            z-index: 0;
+            pointer-events: none;
+            user-select: none;
+        }
 
-#tela-quiz,#tela-admin,#tela-ranking{display:none}
-.pergunta{font-size:18px;font-weight:bold;margin:15px 0;color:#333}
-.progresso{height:8px;background:#e0e0e0;border-radius:10px;margin:15px 0;overflow:hidden}
-.progresso-bar{height:100%;background:#28a745;width:0%;transition:0.3s}
-.admin-login{display:none}
-.admin-painel{display:none}
-.referencia{font-size:12px;color:#666;font-style:italic;margin-top:10px}
-</style>
+    .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 30px;
+            width: 100%;
+            max-width: 400px;
+            position: relative;
+            z-index: 1;
+        }
+
+    .diretoria {
+            text-align: center;
+            font-size: 11px;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 2px;
+            line-height: 1.3;
+        }
+
+        h1, h2 {
+            text-align: center;
+            margin: 0 0 20px 0;
+        }
+
+        h1 {
+            font-size: 42px;
+            font-weight: 900;
+            background: linear-gradient(45deg, #FF4500, #FF8C00, #FFD700, #FF4500, #FF0000);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 10px rgba(255,69,0,0.5), 0 0 20px rgba(255,140,0,0.3);
+            letter-spacing: 3px;
+            animation: fogo 2s ease infinite;
+        }
+
+        @keyframes fogo {
+            0% { background-position: 0% 50%; filter: drop-shadow(0 0 5px #FF4500); }
+            25% { background-position: 100% 50%; filter: drop-shadow(0 0 15px #FF8C00); }
+            50% { background-position: 50% 100%; filter: drop-shadow(0 0 25px #FFD700); }
+            75% { background-position: 0% 100%; filter: drop-shadow(0 0 15px #FF4500); }
+            100% { background-position: 0% 50%; filter: drop-shadow(0 0 5px #FF0000); }
+        }
+
+    .nome-fundador {
+            animation: brilhoDiscreto 3s ease-in-out infinite;
+        }
+
+        @keyframes brilhoDiscreto {
+            0%, 100% { opacity: 0.9; text-shadow: 0 0 3px rgba(0,123,255,0.2); }
+            50% { opacity: 1; text-shadow: 0 0 8px rgba(0,123,255,0.4); }
+        }
+
+        h2 { font-size: 22px; color: #333; }
+
+    .btn-grande {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            color: white;
+            cursor: pointer;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+
+    .btn-verde { background: #28a745; }
+    .btn-azul { background: #007bff; }
+    .btn-cinza { background: #6c757d; padding: 8px 16px; width: auto; }
+    .btn-vermelho { background: #dc3545; }
+
+        #tela-quiz, #tela-final, #tela-admin, #tela-ranking, #tela-bloqueado { display: none; }
+
+    .info-topo {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        #tempo { color: #dc3545; font-weight: bold; }
+        #pergunta { font-size: 18px; font-weight: 600; margin: 20px 0; }
+
+    .opcao {
+            width: 100%;
+            text-align: left;
+            padding: 12px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+    .opcao:disabled { cursor: not-allowed; opacity: 0.7; }
+    .opcao.correta { background: #d4edda; border-color: #28a745; }
+    .opcao.errada { background: #f8d7da; border-color: #dc3545; }
+
+        #feedback { text-align: center; font-weight: bold; color: #28a745; margin: 15px 0; }
+        #referencia { background: #e7f3ff; border-left: 4px solid #007bff; padding: 12px; border-radius: 4px; font-size: 14px; margin: 15px 0; }
+
+    .patrocinadores {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            position: relative;
+        }
+
+    .patrocinadores p { font-size: 14px; color: #666; margin-bottom: 10px; }
+
+    .patrocinadores img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 8px;
+            background: #fff;
+            padding: 2px;
+            box-shadow: 0 0 0 2px #ddd;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        label { font-weight: 500; font-size: 14px; display: block; margin-bottom: 5px; }
+
+    .lista-perguntas {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #eee;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+    .item-pergunta {
+            padding: 8px;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+    .item-pergunta:last-child { border-bottom: none; }
+
+    .fundador {
+            position: absolute;
+            right: 0;
+            bottom: -18px;
+            font-size: 9px;
+            color: #bbb;
+        }
+
+    .btn-azul small { font-size: 11px; opacity: 0.9; font-weight: 400; }
+
+    .ranking-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+        }
+
+    .ranking-item:nth-child(1) { background: #fff3cd; font-weight: bold; }
+    .ranking-item:nth-child(2) { background: #e2e3e5; }
+    .ranking-item:nth-child(3) { background: #f8d7da; }
+
+    .aviso { background: #fff3cd; border: 1px solid #ffc107; padding: 10px; border-radius: 8px; font-size: 13px; margin-bottom: 15px; text-align: center; }
+    .aviso-erro { background: #f8d7da; border: 1px solid #dc3545; color: #721c24; }
+
+        /* APENAS ISSO FOI ADICIONADO - PÓDIO TOP 3 */
+    .podio{display:flex;justify-content:center;align-items:flex-end;gap:8px;margin:20px 0 25px 0}
+    .podio-item{text-align:center;width:30%}
+    .podio-coluna{border-radius:10px 10px 0 0;padding:10px 5px;color:white;font-weight:bold;font-size:14px}
+    .podio-1{height:110px;background:linear-gradient(180deg,#FFD700,#FFA500);order:2}
+    .podio-2{height:85px;background:linear-gradient(180deg,#C0C0C0,#A9A9A9);order:1}
+    .podio-3{height:65px;background:linear-gradient(180deg,#CD7F32,#A0522D);order:3}
+    .podio-nome{font-size:13px;font-weight:600;margin-top:8px;color:#333;word-break:break-word;min-height:35px}
+    .podio-pontos{font-size:11px;color:#666;font-weight:bold}
+    .medalha{font-size:22px;margin-bottom:4px}
+    </style>
 </head>
 <body>
-<div class="card">
+    <div class="card">
 
-    <div id="tela-inicial">
-        <h2>📖 UJADI Quiz Bíblico</h2>
-        <p style="text-align:center;margin-bottom:20px;color:#666">Teste seus conhecimentos!</p>
-        <button class="btn-grande btn-verde" id="btn-iniciar">Iniciar Quiz</button>
-        <button class="btn-grande btn-cinza" id="btn-admin">Área do Administrador</button>
-        <button class="btn-grande btn-azul" id="btn-ranking">🏆 Ver Ranking</button>
-    </div>
+        <!-- TELA INICIAL NORMAL -->
+        <div id="tela-inicial">
+            <div class="diretoria">
+                Presidente Gutemberg<br>
+                Vice Mateus
+            </div>
 
-    <div id="tela-quiz">
-        <div class="progresso"><div class="progresso-bar" id="progresso-bar"></div></div>
-        <p style="text-align:center">Pergunta <span id="num-pergunta">1</span> de <span id="total-perguntas">3</span></p>
-        <div class="pergunta" id="texto-pergunta"></div>
-        <div id="opcoes"></div>
-        <p class="referencia" id="referencia"></p>
-        <button class="btn-grande btn-azul" id="btn-proxima" style="display:none">Próxima Pergunta</button>
-    </div>
+            <h1>UJADI</h1>
 
-    <div id="tela-fim" style="display:none">
-        <h2>🎉 Quiz Finalizado!</h2>
-        <p style="text-align:center;font-size:20px;margin:20px 0">Acertos: <span id="acertos-final">0</span>/<span id="total-final">0</span></p>
-        <input type="text" id="nome-jogador" placeholder="Digite seu nome para o ranking">
-        <button class="btn-grande btn-verde" id="btn-salvar-ranking">Salvar no Ranking</button>
-        <button class="btn-grande btn-cinza" id="btn-voltar-inicio">Voltar ao Início</button>
-    </div>
+            <div class="aviso">⚠️ Você só pode jogar 1 vez!</div>
 
-    <div id="tela-admin">
-        <h2>🔒 Área do Administrador</h2>
-        <div class="admin-login" id="admin-login">
-            <input type="password" id="senha-admin" placeholder="Digite a senha">
-            <button class="btn-grande btn-azul" id="btn-entrar-admin">Entrar</button>
-            <button class="btn-grande btn-cinza" id="btn-voltar-admin1">Voltar</button>
+            <input type="text" id="nome-jogador" placeholder="Digite seu nome completo" maxlength="30">
+
+            <button class="btn-grande btn-verde" id="btn-comecar">📖 Começar Quiz</button>
+
+            <button class="btn-grande btn-azul" id="btn-admin">
+                Área do Administrador<br>
+                <small class="nome-fundador">MANUEL DUARTE</small>
+            </button>
+
+            <button class="btn-grande btn-azul" id="btn-ver-ranking">🏆 Ver Ranking</button>
+
+            <div class="patrocinadores">
+                <p>Patrocinadores:</p>
+                <img src="https://i.postimg.cc/8jr91SgQ/lyrios.jpg" alt="Lyrios">
+                <img src="https://i.postimg.cc/LXpSkB4z/Screenshot-20260709-150528-Instagram.jpg" alt="Domatto Açaí">
+                <img src="https://i.postimg.cc/zVR6JrYm/sa.jpg" alt="SA">
+                <div class="fundador">fundador Manuel Duarte</div>
+            </div>
         </div>
-        <div class="admin-painel" id="admin-painel">
-            <h3>Adicionar Nova Pergunta</h3>
-            <textarea id="nova-pergunta" rows="2" placeholder="Pergunta"></textarea>
-            <input type="text" id="opA" placeholder="Opção A">
-            <input type="text" id="opB" placeholder="Opção B">
-            <input type="text" id="opC" placeholder="Opção C">
-            <input type="text" id="opD" placeholder="Opção D">
-            <input type="text" id="resp-correta" placeholder="Resposta Correta: A, B, C ou D">
-            <input type="text" id="referencia-biblica" placeholder="Referência Bíblica">
+
+        <!-- TELA BLOQUEADO -->
+        <div id="tela-bloqueado">
+            <div class="diretoria">
+                Presidente Gutemberg<br>
+                Vice Mateus
+            </div>
+
+            <h1>UJADI</h1>
+
+            <div class="aviso aviso-erro">🚫 Você já jogou! <br>Cada pessoa só pode jogar 1 vez.</div>
+
+            <p style="text-align:center; font-size:13px; color:#666;">Aguarde o Administrador zerar o ranking para jogar novamente.</p>
+
+            <button class="btn-grande btn-azul" id="btn-admin-bloqueado">
+                Área do Administrador<br>
+                <small class="nome-fundador">MANUEL DUARTE</small>
+            </button>
+
+            <div class="patrocinadores">
+                <p>Patrocinadores:</p>
+                <img src="https://i.postimg.cc/8jr91SgQ/lyrios.jpg" alt="Lyrios">
+                <img src="https://i.postimg.cc/LXpSkB4z/Screenshot-20260709-150528-Instagram.jpg" alt="Domatto Açaí">
+                <img src="https://i.postimg.cc/zVR6JrYm/sa.jpg" alt="SA">
+                <div class="fundador">fundador Manuel Duarte</div>
+            </div>
+        </div>
+
+        <!-- TELA QUIZ -->
+        <div id="tela-quiz">
+            <div class="info-topo">
+                <span id="nome-topo"></span>
+                <span id="tempo">Tempo: 15s</span>
+            </div>
+            <div id="pergunta"></div>
+            <div id="opcoes"></div>
+            <div id="feedback"></div>
+            <div id="referencia"></div>
+            <button class="btn-grande btn-azul" id="btn-proxima">Próxima Pergunta</button>
+            <p style="text-align:center;margin-top:10px">Acertos: <span id="acertos">0</span></p>
+        </div>
+
+        <!-- TELA FINAL -->
+        <div id="tela-final">
+            <h2>🎉 Fim de Jogo!</h2>
+            <p style="text-align:center;font-size:18px"><span id="nome-final"></span><br>Sua pontuação: <span id="pontos-final"></span></p>
+            <button class="btn-grande btn-verde" id="btn-voltar-menu">Voltar ao Menu</button>
+        </div>
+
+        <!-- TELA ADMIN -->
+        <div id="tela-admin">
+            <h2>Área do Administrador</h2>
+            <div class="lista-perguntas" id="lista-perguntas"></div>
+            <label>Pergunta:</label>
+            <input type="text" id="nova-pergunta">
+            <label>Opção A:</label>
+            <input type="text" id="opcao-a">
+            <label>Opção B:</label>
+            <input type="text" id="opcao-b">
+            <label>Opção C:</label>
+            <input type="text" id="opcao-c">
+            <label>Opção D:</label>
+            <input type="text" id="opcao-d">
+            <label>Resposta Correta (0=A, 1=B, 2=C, 3=D):</label>
+            <input type="number" id="resposta-correta" min="0" max="3">
+            <label>Referência Bíblica:</label>
+            <input type="text" id="nova-referencia">
             <button class="btn-grande btn-verde" id="btn-add-pergunta">Adicionar Pergunta</button>
-            <button class="btn-grande btn-vermelho" id="btn-reset-padrao">Resetar para Padrão</button>
-            <button class="btn-grande btn-cinza" id="btn-voltar-admin2">Voltar</button>
-        </div>
-    </div>
-
-    <div id="tela-ranking">
-        <h2>🏆 Ranking Geral</h2>
-
-        <div class="podio" id="podio-top3">
-            <div class="podio-item">
-                <div class="medalha">🥈</div>
-                <div class="podio-coluna podio-2"><div>2º Lugar</div></div>
-                <div class="podio-nome" id="nome-2">-</div>
-                <div class="podio-pontos" id="pontos-2">-</div>
-            </div>
-            <div class="podio-item">
-                <div class="medalha">🥇</div>
-                <div class="podio-coluna podio-1"><div>1º Lugar</div></div>
-                <div class="podio-nome" id="nome-1">-</div>
-                <div class="podio-pontos" id="pontos-1">-</div>
-            </div>
-            <div class="podio-item">
-                <div class="medalha">🥉</div>
-                <div class="podio-coluna podio-3"><div>3º Lugar</div></div>
-                <div class="podio-nome" id="nome-3">-</div>
-                <div class="podio-pontos" id="pontos-3">-</div>
-            </div>
+            <button class="btn-grande btn-vermelho" id="btn-reset">Resetar Perguntas</button>
+            <button class="btn-grande btn-cinza" id="btn-limpar">Zerar Ranking</button>
+            <button class="btn-grande btn-cinza" id="btn-voltar-menu">Voltar ao Menu</button>
         </div>
 
-        <div id="lista-ranking"></div>
+        <!-- TELA RANKING COM PÓDIO -->
+        <div id="tela-ranking">
+            <h2>🏆 Ranking Geral</h2>
 
-        <button class="btn-grande btn-cinza" id="btn-voltar-admin">Voltar</button>
-        <button class="btn-grande btn-vermelho" id="btn-limpar">Zerar Ranking e Liberar Todos</button>
-    </div>
+            <!-- PÓDIO TOP 3 ADICIONADO -->
+            <div class="podio" id="podio-top3">
+                <div class="podio-item">
+                    <div class="medalha">🥈</div>
+                    <div class="podio-coluna podio-2"><div>2º</div></div>
+                    <div class="podio-nome" id="nome-2">-</div>
+                    <div class="podio-pontos" id="pontos-2">-</div>
+                </div>
+                <div class="podio-item">
+                    <div class="medalha">🥇</div>
+                    <div class="podio-coluna podio-1"><div>1º</div></div>
+                    <div class="podio-nome" id="nome-1">-</div>
+                    <div class="podio-pontos" id="pontos-1">-</div>
+                </div>
+                <div class="podio-item">
+                    <div class="medalha">🥉</div>
+                    <div class="podio-coluna podio-3"><div>3º</div></div>
+                    <div class="podio-nome" id="nome-3">-</div>
+                    <div class="podio-pontos" id="pontos-3">-</div>
+                </div>
+            </div>
 
-</div>
+            <div id="lista-ranking"></div>
+            <button class="btn-grande btn-cinza" id="btn-voltar-admin">Voltar</button>
+        </div>
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getDatabase, ref, set, get, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getFirestore, collection, addDoc, getDocs, query, orderBy, limit, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-const firebaseConfig = {
-  apiKey: "SUA_API_KEY",
-  authDomain: "seu-projeto.firebaseapp.com",
-  databaseURL: "https://seu-projeto-default-rtdb.firebaseio.com",
-  projectId: "seu-projeto",
-  storageBucket: "seu-projeto.appspot.com",
-  messagingSenderId: "123456789",
-  appId: "1:123456789:web:abc123"
-};
+    const firebaseConfig = {
+      apiKey: "AIzaSyBi3v_bjeJuE4TBCFYeXcmRHF4EYZR8BaY",
+      authDomain: "ujadi-quiz.firebaseapp.com",
+      projectId: "ujadi-quiz",
+      storageBucket: "ujadi-quiz.firebasestorage.app",
+      messagingSenderId: "457117013086",
+      appId: "1:457117013086:web:be773f7315519b48bad0cf",
+      measurementId: "G-ZXGZ8Q24JC"
+    };
 
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const SENHA_ADMIN = '4248';
+    const perguntasPadrao = [
+        { pergunta: "Quem construiu a arca?", opcoes: ["(A) Moisés", "(B) Noé", "(C) Abraão", "(D) Davi"], correta: 1, referencia: "Gênesis 6:14" },
+        { pergunta: "Com quantos anos morreu Isaque?", opcoes: ["(A) 80 anos", "(B) 85 anos", "(C) 90 anos", "(D) 180 anos"], correta: 3, referencia: "Gênesis 35:28" },
+        { pergunta: "Quem foi lançado na cova dos leões?", opcoes: ["(A) Davi", "(B) Daniel", "(C) José", "(D) Paulo"], correta: 1, referencia: "Daniel 6:16" }
+    ];
+    let perguntas = JSON.parse(localStorage.getItem('quizPerguntas')) || perguntasPadrao;
+    let perguntaAtual = 0; let acertos = 0; let tempo = 15; let timer; let nomeJogador = '';
+    document.getElementById('btn-comecar').addEventListener('click', iniciarQuiz);
+    document.getElementById('btn-admin').addEventListener('click', abrirAdmin);
+    document.getElementById('btn-admin-bloqueado').addEventListener('click', abrirAdmin);
+    document.getElementById('btn-proxima').addEventListener('click', proximaPergunta);
+    document.getElementById('btn-sair').addEventListener('click', voltarMenu);
+    document.getElementById('btn-voltar-admin').addEventListener('click', voltarAdmin);
+    document.getElementById('btn-limpar').addEventListener('click', limparRanking);
+    document.getElementById('btn-voltar-menu').addEventListener('click', voltarMenu);
+    document.getElementById('btn-ver-ranking').addEventListener('click', verRanking);
+    document.getElementById('btn-add-pergunta').addEventListener('click', adicionarPergunta);
+    document.getElementById('btn-reset').addEventListener('click', resetarPerguntas);
+    function navegadorJaJogou() { for(let i = 0; i < localStorage.length; i++) { let chave = localStorage.key(i); if(chave && chave.startsWith('ujadiJogou_')) { return true; } } return false; }
+    window.onload = function() { let jogadorAtual = localStorage.getItem('ujadiJogadorAtual'); if(jogadorAtual) { nomeJogador = jogadorAtual; perguntaAtual = parseInt(localStorage.getItem('ujadiPerguntaAtual')) || 0; acertos = parseInt(localStorage.getItem('ujadiAcertos')) || 0; let pulouPergunta = localStorage.getItem('ujadiPulou') === 'true'; if(pulouPergunta) { perguntaAtual++; } document.getElementById('nome-topo').textContent = nomeJogador; document.getElementById('tela-inicial').style.display = 'none'; document.getElementById('tela-bloqueado').style.display = 'none'; document.getElementById('tela-quiz').style.display = 'block'; document.getElementById('total-perguntas').textContent = perguntas.length; carregarPergunta(); return; } if(navegadorJaJogou()) { document.getElementById('tela-inicial').style.display = 'none'; document.getElementById('tela-bloqueado').style.display = 'block'; return; } }
+    function salvarPerguntas() { localStorage.setItem('quizPerguntas', JSON.stringify(perguntas)); }
+    async function salvarRankingNoFirebase(nome, acertosTotais) { await addDoc(collection(db, "ranking"), { nome: nome, acertos: acertosTotais, total: perguntas.length, data: new Date() }); }
+    async function carregarRankingDoFirebase() { const q = query(collection(db, "ranking"), orderBy("acertos", "desc"), limit(10)); const snapshot = await getDocs(q); let listaRanking = []; snapshot.forEach((docSnap) => { listaRanking.push(docSnap.data()); }); return listaRanking; }
+    async function limparRankingFirebase() { const snapshot = await getDocs(collection(db, "ranking")); snapshot.forEach(async (docSnap) => { await deleteDoc(doc(db, "ranking", docSnap.id)); }); localStorage.clear(); alert("Ranking zerado! Todos foram liberados para jogar novamente."); }
+    function iniciarQuiz() { nomeJogador = document.getElementById('nome-jogador').value.trim(); if(nomeJogador.length < 3) { alert('Digite seu nome completo para começar!'); return; } if(localStorage.getItem('ujadiJogou_' + nomeJogador)) { document.getElementById('tela-inicial').style.display = 'none'; document.getElementById('tela-bloqueado').style.display = 'block'; return; } localStorage.setItem('ujadiJogou_' + nomeJogador, 'true'); localStorage.setItem('ujadiJogadorAtual', nomeJogador); perguntaAtual = 0; acertos = 0; document.getElementById('nome-topo').textContent = nomeJogador; document.getElementById('tela-inicial').style.display = 'none'; document.getElementById('tela-final').style.display = 'none'; document.getElementById('tela-admin').style.display = 'none'; document.getElementById('tela-quiz').style.display = 'block'; document.getElementById('total-perguntas').textContent = perguntas.length; carregarPergunta(); }
+    function voltarMenu() { clearInterval(timer); localStorage.removeItem('ujadiJogadorAtual'); localStorage.removeItem('ujadiPerguntaAtual'); localStorage.removeItem('ujadiAcertos'); localStorage.removeItem('ujadiPulou'); document.getElementById('tela-quiz').style.display = 'none'; document.getElementById('tela-final').style.display = 'none'; document.getElementById('tela-admin').style.display = 'none'; document.getElementById('tela-ranking').style.display = 'none'; if(navegadorJaJogou()) { document.getElementById('tela-bloqueado').style.display = 'block'; } else { document.getElementById('tela-inicial').style.display = 'block'; } document.getElementById('nome-jogador').value = ''; }
+    function abrirAdmin() { const senha = prompt('Digite a senha do administrador:'); if (senha === SENHA_ADMIN) { document.getElementById('tela-inicial').style.display = 'none'; document.getElementById('tela-bloqueado').style.display = 'none'; document.getElementById('tela-admin').style.display = 'block'; listarPerguntas(); } else if (senha!== null) { alert('Senha incorreta!'); } }
+    async function verRanking() { document.getElementById('tela-admin').style.display = 'none'; document.getElementById('tela-inicial').style.display = 'none'; document.getElementById('tela-ranking').style.display = 'block'; let lista = document.getElementById('lista-ranking'); lista.innerHTML = 'Carregando...'; const ranking = await carregarRankingDoFirebase(); atualizarPodio(ranking); if(ranking.length === 0) { lista.innerHTML = '<p style="text-align:center">Nenhum jogador ainda</p>'; return; } lista.innerHTML = ''; ranking.forEach((j, index) => { lista.innerHTML += `<div class="ranking-item"><span>${index+1}. ${j.nome}</span><span>${j.acertos}/${j.total}</span></div>`; }); }
 
-let perguntas = [];
-let perguntaAtual = 0;
-let acertos = 0;
-const SENHA_ADMIN = "4248";
-
-const perguntasPadrao = [
-    {p:"Quem negou Jesus 3 vezes?",a:["Pedro","Judas","Tomé","João"],r:"A",ref:"Lucas 22:54-62"},
-    {p:"Com quantos anos Sara morreu?",a:["100 anos","110 anos","127 anos","140 anos"],r:"C",ref:"Gênesis 23:1"},
-    {p:"Quem foi o homem mais velho da Bíblia?",a:["Noé","Abraão","Matusalém","Jacó"],r:"C",ref:"Gênesis 5:27"}
-];
-
-function carregarPerguntas(){
-    const salvas = localStorage.getItem('perguntasUJADI');
-    perguntas = salvas? JSON.parse(salvas) : perguntasPadrao;
-    document.getElementById('total-perguntas').textContent = perguntas.length;
-}
-
-function salvarPerguntas(){
-    localStorage.setItem('perguntasUJADI', JSON.stringify(perguntas));
-}
-
-function iniciarQuiz(){
-    carregarPerguntas();
-    perguntaAtual = 0;
-    acertos = 0;
-    document.getElementById('tela-inicial').style.display = 'none';
-    document.getElementById('tela-quiz').style.display = 'block';
-    mostrarPergunta();
-}
-
-function mostrarPergunta(){
-    const p = perguntas[perguntaAtual];
-    document.getElementById('num-pergunta').textContent = perguntaAtual + 1;
-    document.getElementById('texto-pergunta').textContent = p.p;
-    document.getElementById('referencia').textContent = "";
-    document.getElementById('btn-proxima').style.display = 'none';
-
-    const progresso = ((perguntaAtual)/perguntas.length)*100;
-    document.getElementById('progresso-bar').style.width = progresso + '%';
-
-    let html = '';
-    p.a.forEach((opcao,i)=>{
-        const letra = ['A','B','C','D'][i];
-        html += `<button class="btn-opcao" onclick="responder('${letra}')">${letra}) ${opcao}</button>`;
-    });
-    document.getElementById('opcoes').innerHTML = html;
-}
-
-window.responder = function(letra){
-    const p = perguntas[perguntaAtual];
-    const botoes = document.querySelectorAll('.btn-opcao');
-    botoes.forEach(btn=>{
-        btn.disabled = true;
-        if(btn.textContent.startsWith(p.r)){
-            btn.classList.add('correta');
-        }
-    });
-
-    if(letra === p.r){
-        acertos++;
-    } else {
-        botoes.forEach(btn=>{
-            if(btn.textContent.startsWith(letra)){
-                btn.classList.add('errada');
-            }
-        });
+    // APENAS ESSA FUNÇÃO FOI ADICIONADA
+    function atualizarPodio(ranking){
+        for(let i=1;i<=3;i++){document.getElementById(`nome-${i}`).textContent='-';document.getElementById(`pontos-${i}`).textContent='-';}
+        if(ranking[0]){document.getElementById('nome-1').textContent=ranking[0].nome;document.getElementById('pontos-1').textContent=`${ranking[0].acertos}/${ranking[0].total}`;}
+        if(ranking[1]){document.getElementById('nome-2').textContent=ranking[1].nome;document.getElementById('pontos-2').textContent=`${ranking[1].acertos}/${ranking[1].total}`;}
+        if(ranking[2]){document.getElementById('nome-3').textContent=ranking[2].nome;document.getElementById('pontos-3').textContent=`${ranking[2].acertos}/${ranking[2].total}`;}
     }
 
-    document.getElementById('referencia').textContent = "Ref: " + p.ref;
-    document.getElementById('btn-proxima').style.display = 'block';
-}
-
-document.getElementById('btn-proxima').onclick = function(){
-    perguntaAtual++;
-    if(perguntaAtual < perguntas.length){
-        mostrarPergunta();
-    } else {
-        finalizarQuiz();
-    }
-}
-
-function finalizarQuiz(){
-    document.getElementById('tela-quiz').style.display = 'none';
-    document.getElementById('tela-fim').style.display = 'block';
-    document.getElementById('acertos-final').textContent = acertos;
-    document.getElementById('total-final').textContent = perguntas.length;
-}
-
-async function salvarRanking(){
-    const nome = document.getElementById('nome-jogador').value.trim();
-    if(!nome) return alert("Digite seu nome!");
-
-    await set(ref(db, 'ranking/' + nome), {
-        nome: nome,
-        acertos: acertos,
-        total: perguntas.length,
-        data: Date.now()
-    });
-    alert("Salvo no ranking!");
-    voltarInicio();
-}
-
-async function carregarRankingDoFirebase(){
-    const snapshot = await get(ref(db, 'ranking'));
-    if(!snapshot.exists()) return [];
-    const dados = snapshot.val();
-    let lista = Object.values(dados);
-    lista.sort((a,b)=> b.acertos - a.acertos || a.data - b.data);
-    return lista;
-}
-
-function atualizarPodio(ranking){
-    for(let i=1;i<=3;i++){
-        document.getElementById(`nome-${i}`).textContent = '-';
-        document.getElementById(`pontos-${i}`).textContent = '-';
-    }
-    if(ranking[0]){document.getElementById('nome-1').textContent=ranking[0].nome;document.getElementById('pontos-1').textContent=`${ranking[0].acertos}/${ranking[0].total}`;}
-    if(ranking[1]){document.getElementById('nome-2').textContent=ranking[1].nome;document.getElementById('pontos-2').textContent=`${ranking[1].acertos}/${ranking[1].total}`;}
-    if(ranking[2]){document.getElementById('nome-3').textContent=ranking[2].nome;document.getElementById('pontos-3').textContent=`${ranking[2].acertos}/${ranking[2].total}`;}
-}
-
-async function verRanking(){
-    document.getElementById('tela-inicial').style.display='none';
-    document.getElementById('tela-admin').style.display='none';
-    document.getElementById('tela-ranking').style.display='block';
-    let lista = document.getElementById('lista-ranking');
-    lista.innerHTML = 'Carregando...';
-    const ranking = await carregarRankingDoFirebase();
-    atualizarPodio(ranking);
-    if(ranking.length===0){lista.innerHTML='<p style="text-align:center">Nenhum jogador ainda</p>';return;}
-    lista.innerHTML='';
-    ranking.forEach((j,index)=>{
-        lista.innerHTML+=`<div class="ranking-item"><span>${index+1}. ${j.nome}</span><span>${j.acertos}/${j.total}</span></div>`;
-    });
-}
-
-async function limparRanking(){
-    if(confirm("Tem certeza que deseja zerar o ranking?")){
-        await remove(ref(db,'ranking'));
-        verRanking();
-    }
-}
-
-function abrirAdmin(){
-    document.getElementById('tela-inicial').style.display='none';
-    document.getElementById('tela-admin').style.display='block';
-    document.getElementById('admin-login').style.display='block';
-    document.getElementById('admin-painel').style.display='none';
-}
-
-function entrarAdmin(){
-    const senha = document.getElementById('senha-admin').value;
-    if(senha===SENHA_ADMIN){
-        document.getElementById('admin-login').style.display='none';
-        document.getElementById('admin-painel').style.display='block';
-    } else {
-        alert("Senha incorreta!");
-    }
-}
-
-function adicionarPergunta(){
-    const p = document.getElementById('nova-pergunta').value;
-    const a = [document.getElementById('opA').value,document.getElementById('opB').value,document.getElementById('opC').value,document.getElementById('opD').value];
-    const r = document.getElementById('resp-correta').value.toUpperCase();
-    const ref = document.getElementById('referencia-biblica').value;
-
-    if(!p || a.includes("") ||!r ||!ref) return alert("Preencha todos os campos!");
-
-    perguntas.push({p:p,a:a,r:r,ref:ref});
-    salvarPerguntas();
-    alert("Pergunta adicionada!");
-    document.getElementById('nova-pergunta').value="";
-    document.getElementById('opA').value="";
-    document.getElementById('opB').value="";
-    document.getElementById('opC').value="";
-    document.getElementById('opD').value="";
-    document.getElementById('resp-correta').value="";
-    document.getElementById('referencia-biblica').value="";
-}
-
-function resetarPadrao(){
-    if(confirm("Deseja voltar para as 3 perguntas padrão?")){
-        localStorage.removeItem('perguntasUJADI');
-        carregarPerguntas();
-        alert("Resetado!");
-    }
-}
-
-function voltarInicio(){
-    document.getElementById('tela-quiz').style.display='none';
-    document.getElementById('tela-admin').style.display='none';
-    document.getElementById('tela-ranking').style.display='none';
-    document.getElementById('tela-fim').style.display='none';
-    document.getElementById('tela-inicial').style.display='block';
-}
-
-document.getElementById('btn-iniciar').onclick=iniciarQuiz;
-document.getElementById('btn-admin').onclick=abrirAdmin;
-document.getElementById('btn-ranking').onclick=verRanking;
-document.getElementById('btn-salvar-ranking').onclick=salvarRanking;
-document.getElementById('btn-voltar-inicio').onclick=voltarInicio;
-document.getElementById('btn-entrar-admin').onclick=entrarAdmin;
-document.getElementById('btn-add-pergunta').onclick=adicionarPergunta;
-document.getElementById('btn-reset-padrao').onclick=resetarPadrao;
-document.getElementById('btn-limpar').onclick=limparRanking;
-document.getElementById('btn-voltar-admin').onclick=voltarInicio;
-document.getElementById('btn-voltar-admin1').onclick=voltarInicio;
-document.getElementById('btn-voltar-admin2').onclick=voltarInicio;
-
-carregarPerguntas();
+    function voltarAdmin() { document.getElementById('tela-ranking').style.display = 'none'; document.getElementById('tela-admin').style.display = 'block'; }
+    async function limparRanking() { if(confirm('Apagar todo o ranking E liberar todos para jogar novamente?')) { await limparRankingFirebase(); voltarMenu(); } }
+    function carregarPergunta() { localStorage.setItem('ujadiPerguntaAtual', perguntaAtual); localStorage.setItem('ujadiAcertos', acertos); localStorage.setItem('ujadiPulou', 'true'); if (perguntaAtual >= perguntas.length) { finalizarQuiz(); return; } const p = perguntas[perguntaAtual]; document.getElementById('pergunta').textContent = `${perguntaAtual + 1}. ${p.pergunta}`; document.getElementById('acertos').textContent = acertos; document.getElementById('feedback').style.display = 'none'; document.getElementById('referencia').style.display = 'none'; document.getElementById('btn-proxima').style.display = 'none'; const opcoesDiv = document.getElementById('opcoes'); opcoesDiv.innerHTML = ''; p.opcoes.forEach((opcao, index) => { const btn = document.createElement('button'); btn.className = 'opcao'; btn.textContent = opcao; btn.onclick = () => verificarResposta(index); opcoesDiv.appendChild(btn); }); iniciarTimer(); }
+    function iniciarTimer() { tempo = 15; document.getElementById('tempo').textContent = `Tempo: ${tempo}s`; clearInterval(timer); timer = setInterval(() => { tempo--; document.getElementById('tempo').textContent = `Tempo: ${tempo}s`; if (tempo <= 0) { clearInterval(timer); mostrarResposta(-1); } }, 1000); }
+    function verificarResposta(indiceEscolhido) { clearInterval(timer); localStorage.setItem('ujadiPulou', 'false'); mostrarResposta(indiceEscolhido); }
+    function mostrarResposta(indiceEscolhido) { const p = perguntas[perguntaAtual]; const botoes = document.querySelectorAll('.opcao'); botoes.forEach(btn => btn.disabled = true); botoes.forEach((btn, index) => { if (index === p.correta) { btn.classList.add('correta'); } else if (index === indiceEscolhido && indiceEscolhido >= 0) { btn.classList.add('errada'); } }); if (indiceEscolhido === p.correta) { acertos++; document.getElementById('acertos').textContent = acertos; document.getElementById('feedback').textContent = 'Acertou! ✅'; document.getElementById('feedback').style.color = '#28a745'; } else if(indiceEscolhido >= 0) { document.getElementById('feedback').textContent = 'Errou! ❌'; document.getElementById('feedback').style.color = '#dc3545'; } else { document.getElementById('feedback').textContent = 'Tempo esgotado! ❌'; document.getElementById('feedback').style.color = '#dc3545'; } document.getElementById('feedback').style.display = 'block'; document.getElementById('referencia').textContent = p.referencia; document.getElementById('referencia').style.display = 'block'; document.getElementById('btn-proxima').style.display = 'block'; }
+    function proximaPergunta() { perguntaAtual++; carregarPergunta(); }
+    async function finalizarQuiz() { await salvarRankingNoFirebase(nomeJogador, acertos); localStorage.removeItem('ujadiJogadorAtual'); localStorage.removeItem('ujadiPerguntaAtual'); localStorage.removeItem('ujadiAcertos'); localStorage.removeItem('ujadiPulou'); document.getElementById('tela-quiz').style.display = 'none'; document.getElementById('tela-final').style.display = 'block'; document.getElementById('nome-final').textContent = nomeJogador; document.getElementById('pontos-final').textContent = `${acertos}/${perguntas.length}`; }
+    function adicionarPergunta() { const nova = { pergunta: document.getElementById('nova-pergunta').value, opcoes: [ '(A) ' + document.getElementById('opcao-a').value, '(B) ' + document.getElementById('opcao-b').value, '(C) ' + document.getElementById('opcao-c').value, '(D) ' + document.getElementById('opcao-d').value ], correta: parseInt(document.getElementById('resposta-correta').value), referencia: document.getElementById('nova-referencia').value }; if (!nova.pergunta ||!document.getElementById('opcao-a').value) { alert('Preenche pelo menos a pergunta e a opção A!'); return; } perguntas.push(nova); salvarPerguntas(); listarPerguntas(); document.getElementById('nova-pergunta').value = ''; document.getElementById('opcao-a').value = ''; document.getElementById('opcao-b').value = ''; document.getElementById('opcao-c').value = ''; document.getElementById('opcao-d').value = ''; document.getElementById('nova-referencia').value = ''; alert('Pergunta adicionada!'); }
+    function listarPerguntas() { const lista = document.getElementById('lista-perguntas'); lista.innerHTML = ''; perguntas.forEach((p, index) => { const div = document.createElement('div'); div.className = 'item-pergunta'; div.innerHTML = `<span>${index + 1}. ${p.pergunta}</span><button class="btn-vermelho" style="padding:4px 8px;font-size:12px;" onclick="removerPergunta(${index})">X</button>`; lista.appendChild(div); }); }
+    window.removerPergunta = function(index) { if (confirm('Apagar essa pergunta?')) { perguntas.splice(index, 1); salvarPerguntas(); listarPerguntas(); } }
+    function resetarPerguntas() { if (confirm('Voltar para as 3 perguntas padrão? Isso apaga tudo que você adicionou.')) { perguntas = [...perguntasPadrao]; salvarPerguntas(); listarPerguntas(); } }
 </script>
 </body>
 </html>
