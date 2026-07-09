@@ -48,6 +48,7 @@
 </head>
 <body>
     <div class="card">
+        <!-- TELA INICIAL NORMAL -->
         <div id="tela-inicial">
             <div class="diretoria">Presidente Gutemberg<br>Vice Mateus</div>
             <h1>UJADI</h1>
@@ -55,21 +56,29 @@
             <input type="text" id="nome-jogador" placeholder="Digite seu nome completo" maxlength="30">
             <button class="btn-grande btn-verde" id="btn-comecar">📖 Começar Quiz</button>
             <button class="btn-grande btn-azul" id="btn-admin">Área do Administrador<br><small>MANUEL DUARTE</small></button>
-            <div class="patrocinadores"><p>Patrocinadores:</p><img src="https://i.postimg.cc/8jr91SgQ/lyrios.jpg"><img src="https://i.postimg.cc/fkP1nbph/flavio.jpg"><img src="https://i.postimg.cc/zVR6JrYm/sa.jpg"><div class="fundador">fundador Manuel Duarte</div></div>
+            <div class="patrocinadores"><p>Patrocinadores:</p><img src="https://i.postimg.cc/8jr91SgQ/lyrios.jpg" alt="Lyrios"><img src="https://i.postimg.cc/fkP1nbph/flavio.jpg" alt="Flávio"><img src="https://i.postimg.cc/zVR6JrYm/sa.jpg" alt="SA"><div class="fundador">fundador Manuel Duarte</div></div>
         </div>
 
+        <!-- TELA BLOQUEADO - SÓ PRA QUEM JÁ JOGOU -->
         <div id="tela-bloqueado">
             <div class="diretoria">Presidente Gutemberg<br>Vice Mateus</div>
             <h1>UJADI</h1>
             <div class="aviso aviso-erro">🚫 Você já jogou! <br>Cada pessoa só pode jogar 1 vez.</div>
             <p style="text-align:center; font-size:13px; color:#666;">Aguarde o Administrador zerar o ranking para jogar novamente.</p>
             <button class="btn-grande btn-azul" id="btn-admin-bloqueado">Área do Administrador<br><small>MANUEL DUARTE</small></button>
-            <div class="patrocinadores"><p>Patrocinadores:</p><img src="https://i.postimg.cc/8jr91SgQ/lyrios.jpg"><img src="https://i.postimg.cc/fkP1nbph/flavio.jpg"><img src="https://i.postimg.cc/zVR6JrYm/sa.jpg"><div class="fundador">fundador Manuel Duarte</div></div>
+            <div class="patrocinadores"><p>Patrocinadores:</p><img src="https://i.postimg.cc/8jr91SgQ/lyrios.jpg" alt="Lyrios"><img src="https://i.postimg.cc/fkP1nbph/flavio.jpg" alt="Flávio"><img src="https://i.postimg.cc/zVR6JrYm/sa.jpg" alt="SA"><div class="fundador">fundador Manuel Duarte</div></div>
         </div>
 
+        <!-- TELA DO QUIZ -->
         <div id="tela-quiz"><h1>UJADI</h1><div class="info-topo"><div><b>Jogador:</b> <span id="nome-topo"></span></div><div><span>Acertos: <span id="acertos">0</span>/<span id="total-perguntas">3</span></span><br><span id="tempo">Tempo: 15s</span></div></div><div id="pergunta"></div><div id="opcoes"></div><div id="feedback" style="display:none"></div><div id="referencia" style="display:none"></div><button id="btn-proxima" class="btn-grande btn-azul" style="display:none">Próxima Pergunta</button></div>
+
+        <!-- TELA FINAL -->
         <div id="tela-final"><h1>UJADI</h1><p style="text-align:center; font-size:18px;"><b><span id="nome-final"></span></b></p><p style="text-align:center; font-size:18px;">Sua pontuação: <span id="pontos-final">0</span></p><p style="text-align:center; font-size:13px; color:#666;">Obrigado por participar!</p><button class="btn-grande btn-cinza" id="btn-sair">Sair</button></div>
+
+        <!-- TELA RANKING -->
         <div id="tela-ranking"><h2>🏆 Ranking Geral</h2><div id="lista-ranking"></div><button class="btn-grande btn-cinza" id="btn-voltar-admin">Voltar</button><button class="btn-grande btn-vermelho" id="btn-limpar">Zerar Ranking e Liberar Todos</button></div>
+
+        <!-- TELA ADMIN -->
         <div id="tela-admin"><h2>Área do Administrador</h2><button class="btn-grande btn-cinza" id="btn-voltar-menu" style="margin-bottom:20px;">Voltar ao Menu</button><button class="btn-grande btn-azul" id="btn-ver-ranking">🏆 Ver Ranking</button><h3>Adicionar Pergunta</h3><label>Pergunta:</label><input type="text" id="nova-pergunta"><label>Opção A:</label><input type="text" id="opcao-a"><label>Opção B:</label><input type="text" id="opcao-b"><label>Opção C:</label><input type="text" id="opcao-c"><label>Opção D:</label><input type="text" id="opcao-d"><label>Resposta Correta:</label><select id="resposta-correta"><option value="0">A</option><option value="1">B</option><option value="2">C</option><option value="3">D</option></select><label>Referência Bíblica:</label><input type="text" id="nova-referencia"><button class="btn-grande btn-verde" id="btn-add-pergunta">Adicionar Pergunta</button><h3 style="margin-top:30px;">Perguntas Cadastradas</h3><div id="lista-perguntas" class="lista-perguntas"></div><button class="btn-grande btn-vermelho" id="btn-reset">Resetar pra Padrão</button></div>
     </div>
 
@@ -98,12 +107,12 @@ document.getElementById('btn-ver-ranking').addEventListener('click', verRanking)
 document.getElementById('btn-add-pergunta').addEventListener('click', adicionarPergunta);
 document.getElementById('btn-reset').addEventListener('click', resetarPerguntas);
 
-// FUNÇÃO NOVA: VERIFICA SE ESSE NAVEGADOR JÁ JOGOU
+// FUNÇÃO NOVA: VERIFICA SE ESSE NAVEGADOR JÁ JOGOU COM QUALQUER NOME
 function navegadorJaJogou() {
     for(let i = 0; i < localStorage.length; i++) {
         let chave = localStorage.key(i);
         if(chave && chave.startsWith('ujadiJogou_')) {
-            return true; // Achou 1 nome que já jogou nesse navegador
+            return true;
         }
     }
     return false;
@@ -127,7 +136,7 @@ window.onload = function() {
         return;
     }
 
-    // 2. SE NÃO TEM NINGUÉM JOGANDO, MAS ESSE NAVEGADOR JÁ JOGOU ANTES
+    // 2. NOVA REGRA: SE ESSE NAVEGADOR JÁ JOGOU, BLOQUEIA DIRETO
     if(navegadorJaJogou()) {
         document.getElementById('tela-inicial').style.display = 'none';
         document.getElementById('tela-bloqueado').style.display = 'block';
@@ -171,12 +180,13 @@ function voltarMenu() {
     document.getElementById('tela-admin').style.display = 'none';
     document.getElementById('tela-ranking').style.display = 'none';
 
-    // REGRA NOVA: AO SAIR, VERIFICA SE ESSE NAVEGADOR JÁ JOGOU
+    // NOVA REGRA: AO SAIR VERIFICA SE ESSE NAVEGADOR JÁ JOGOU
     if(navegadorJaJogou()) {
         document.getElementById('tela-bloqueado').style.display = 'block';
     } else {
         document.getElementById('tela-inicial').style.display = 'block';
     }
+    document.getElementById('nome-jogador').value = '';
 }
 
 function abrirAdmin() { const senha = prompt('Digite a senha do administrador:'); if (senha === SENHA_ADMIN) { document.getElementById('tela-inicial').style.display = 'none'; document.getElementById('tela-bloqueado').style.display = 'none'; document.getElementById('tela-admin').style.display = 'block'; listarPerguntas(); } else if (senha!== null) { alert('Senha incorreta!'); } }
