@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UJADI v609</title>
+    <title>UJADI v610</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -31,7 +31,7 @@
             user-select: none;
         }
 
-       .card {
+      .card {
             background: white;
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
@@ -42,13 +42,13 @@
             z-index: 1;
         }
 
-       .diretoria {
+      .diretoria {
             text-align: center;
-            font-size: 14px;
+            font-size: 11px; /* MENOR */
             font-weight: 600;
-            color: #333;
-            margin-bottom: 8px;
-            line-height: 1.4;
+            color: #555;
+            margin-bottom: 2px; /* MAIS PRA CIMA */
+            line-height: 1.3;
         }
 
         h1, h2 {
@@ -57,22 +57,34 @@
         }
 
         h1 {
-            font-size: 32px;
+            font-size: 42px; /* MAIOR */
             font-weight: 900;
-            background: linear-gradient(45deg, #FFD700, #FFA500, #FFD700, #B8860B);
-            background-size: 200% 200%;
+            background: linear-gradient(45deg, #FF4500, #FF8C00, #FFD700, #FF4500, #FF0000);
+            background-size: 300% 300%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            text-shadow: 0 2px 4px rgba(255,215,0,0.3);
-            letter-spacing: 2px;
-            animation: brilho 3s ease infinite;
+            text-shadow: 0 0 10px rgba(255,69,0,0.5), 0 0 20px rgba(255,140,0,0.3);
+            letter-spacing: 3px;
+            animation: fogo 2s ease infinite; /* ANIMAÇÃO DE FOGO */
         }
 
-        @keyframes brilho {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        @keyframes fogo {
+            0% { background-position: 0% 50%; filter: drop-shadow(0 0 5px #FF4500); }
+            25% { background-position: 100% 50%; filter: drop-shadow(0 0 15px #FF8C00); }
+            50% { background-position: 50% 100%; filter: drop-shadow(0 0 25px #FFD700); }
+            75% { background-position: 0% 100%; filter: drop-shadow(0 0 15px #FF4500); }
+            100% { background-position: 0% 50%; filter: drop-shadow(0 0 5px #FF0000); }
+        }
+
+        /* NOVA ANIMAÇÃO DISCRETA PARA MANUEL DUARTE */
+       .nome-fundador {
+            animation: brilhoDiscreto 3s ease-in-out infinite;
+        }
+
+        @keyframes brilhoDiscreto {
+            0%, 100% { opacity: 0.9; text-shadow: 0 0 3px rgba(0,123,255,0.2); }
+            50% { opacity: 1; text-shadow: 0 0 8px rgba(0,123,255,0.4); }
         }
 
         h2 {
@@ -80,7 +92,7 @@
             color: #333;
         }
 
-       .btn-grande {
+      .btn-grande {
             width: 100%;
             padding: 16px;
             border: none;
@@ -93,16 +105,16 @@
             line-height: 1.3;
         }
 
-       .btn-verde { background: #28a745; }
-       .btn-azul { background: #007bff; }
-       .btn-cinza { background: #6c757d; padding: 8px 16px; width: auto; }
-       .btn-vermelho { background: #dc3545; }
+      .btn-verde { background: #28a745; }
+      .btn-azul { background: #007bff; }
+      .btn-cinza { background: #6c757d; padding: 8px 16px; width: auto; }
+      .btn-vermelho { background: #dc3545; }
 
         #tela-quiz, #tela-final, #tela-admin, #tela-ranking, #tela-bloqueado {
             display: none;
         }
 
-       .info-topo {
+      .info-topo {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -120,7 +132,7 @@
             margin: 20px 0;
         }
 
-       .opcao {
+      .opcao {
             width: 100%;
             text-align: left;
             padding: 12px;
@@ -132,17 +144,17 @@
             font-size: 15px;
         }
 
-       .opcao:disabled {
+      .opcao:disabled {
             cursor: not-allowed;
             opacity: 0.7;
         }
 
-       .opcao.correta {
+      .opcao.correta {
             background: #d4edda;
             border-color: #28a745;
         }
 
-       .opcao.errada {
+      .opcao.errada {
             background: #f8d7da;
             border-color: #dc3545;
         }
@@ -163,7 +175,7 @@
             margin: 15px 0;
         }
 
-       .patrocinadores {
+      .patrocinadores {
             text-align: center;
             margin-top: 25px;
             padding-top: 20px;
@@ -171,13 +183,13 @@
             position: relative;
         }
 
-       .patrocinadores p {
+      .patrocinadores p {
             font-size: 14px;
             color: #666;
             margin-bottom: 10px;
         }
 
-       .patrocinadores img {
+      .patrocinadores img {
             width: 60px;
             height: 60px;
             border-radius: 50%;
@@ -205,7 +217,7 @@
             margin-bottom: 5px;
         }
 
-       .lista-perguntas {
+      .lista-perguntas {
             max-height: 200px;
             overflow-y: auto;
             border: 1px solid #eee;
@@ -214,7 +226,7 @@
             margin-bottom: 15px;
         }
 
-       .item-pergunta {
+      .item-pergunta {
             padding: 8px;
             border-bottom: 1px solid #f0f0f0;
             display: flex;
@@ -222,11 +234,11 @@
             align-items: center;
         }
 
-       .item-pergunta:last-child {
+      .item-pergunta:last-child {
             border-bottom: none;
         }
 
-       .fundador {
+      .fundador {
             position: absolute;
             right: 0;
             bottom: -18px;
@@ -234,13 +246,13 @@
             color: #bbb;
         }
 
-       .btn-azul small {
+      .btn-azul small {
             font-size: 11px;
             opacity: 0.9;
             font-weight: 400;
         }
 
-       .ranking-item {
+      .ranking-item {
             display: flex;
             justify-content: space-between;
             padding: 10px;
@@ -248,20 +260,20 @@
             font-size: 14px;
         }
 
-       .ranking-item:nth-child(1) {
+      .ranking-item:nth-child(1) {
             background: #fff3cd;
             font-weight: bold;
         }
 
-       .ranking-item:nth-child(2) {
+      .ranking-item:nth-child(2) {
             background: #e2e3e5;
         }
 
-       .ranking-item:nth-child(3) {
+      .ranking-item:nth-child(3) {
             background: #f8d7da;
         }
 
-       .aviso {
+      .aviso {
             background: #fff3cd;
             border: 1px solid #ffc107;
             padding: 10px;
@@ -271,7 +283,7 @@
             text-align: center;
         }
 
-       .aviso-erro {
+      .aviso-erro {
             background: #f8d7da;
             border: 1px solid #dc3545;
             color: #721c24;
@@ -298,7 +310,7 @@
 
             <button class="btn-grande btn-azul" id="btn-admin">
                 Área do Administrador<br>
-                <small>MANUEL DUARTE</small>
+                <small class="nome-fundador">MANUEL DUARTE</small> <!-- CLASSE NOVA -->
             </button>
 
             <div class="patrocinadores">
@@ -325,7 +337,7 @@
 
             <button class="btn-grande btn-azul" id="btn-admin-bloqueado">
                 Área do Administrador<br>
-                <small>MANUEL DUARTE</small>
+                <small class="nome-fundador">MANUEL DUARTE</small> <!-- CLASSE NOVA -->
             </button>
 
             <div class="patrocinadores">
@@ -480,7 +492,6 @@
     document.getElementById('btn-add-pergunta').addEventListener('click', adicionarPergunta);
     document.getElementById('btn-reset').addEventListener('click', resetarPerguntas);
 
-    // FUNÇÃO NOVA: VERIFICA SE ESSE NAVEGADOR JÁ JOGOU
     function navegadorJaJogou() {
         for(let i = 0; i < localStorage.length; i++) {
             let chave = localStorage.key(i);
@@ -492,7 +503,6 @@
     }
 
     window.onload = function() {
-        // 1. SE TEM ALGUÉM NO MEIO DO JOGO, VOLTA PRA ELE
         let jogadorAtual = localStorage.getItem('ujadiJogadorAtual');
         if(jogadorAtual) {
             nomeJogador = jogadorAtual;
@@ -511,7 +521,6 @@
             return;
         }
 
-        // 2. NOVA REGRA: SE ESSE NAVEGADOR JÁ JOGOU, BLOQUEIA DIRETO
         if(navegadorJaJogou()) {
             document.getElementById('tela-inicial').style.display = 'none';
             document.getElementById('tela-bloqueado').style.display = 'block';
@@ -590,7 +599,6 @@
         document.getElementById('tela-admin').style.display = 'none';
         document.getElementById('tela-ranking').style.display = 'none';
 
-        // NOVA REGRA: AO SAIR VERIFICA SE ESSE NAVEGADOR JÁ JOGOU
         if(navegadorJaJogou()) {
             document.getElementById('tela-bloqueado').style.display = 'block';
         } else {
