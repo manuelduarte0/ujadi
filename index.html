@@ -311,6 +311,22 @@ let tempo = 15;
 let timer;
 let nomeJogador = '';
 
+// VERIFICA SE TEM ALGUÉM JOGANDO QUANDO ABRE A PÁGINA
+window.onload = function() {
+    let jogadorAtual = localStorage.getItem('ujadiJogadorAtual');
+    if(jogadorAtual) {
+        nomeJogador = jogadorAtual;
+        perguntaAtual = parseInt(localStorage.getItem('ujadiPerguntaAtual')) || 0;
+        acertos = parseInt(localStorage.getItem('ujadiAcertos')) || 0;
+
+        document.getElementById('nome-topo').textContent = nomeJogador;
+        document.getElementById('tela-inicial').style.display = 'none';
+        document.getElementById('tela-quiz').style.display = 'block';
+        document.getElementById('total-perguntas').textContent = perguntas.length;
+        carregarPergunta();
+    }
+}
+
 function salvarPerguntas() {
     localStorage.setItem('quizPerguntas', JSON.stringify(perguntas));
 }
@@ -327,16 +343,14 @@ function iniciarQuiz() {
         return;
     }
 
-    // BLOQUEIA JÁ AO CLICAR EM COMEÇAR
     if(localStorage.getItem('ujadiJogou_' + nomeJogador)) {
         alert('Você já iniciou ou respondeu o quiz! Só é permitido 1 tentativa.');
         return;
     }
 
-    // Marca que já começou, mesmo sem terminar
     localStorage.setItem('ujadiJogou_' + nomeJogador, 'true');
+    localStorage.setItem('ujadiJogadorAtual', nomeJogador); // TRAVA O NAVEGADOR
 
-    // JÁ SALVA NO RANKING COM 0 ACERTOS
     ranking.push({
         nome: nomeJogador,
         acertos: 0,
@@ -358,6 +372,10 @@ function iniciarQuiz() {
 
 function voltarMenu() {
     clearInterval(timer);
+    localStorage.removeItem('ujadiJogadorAtual'); // LIBERA QUANDO FINALIZA
+    localStorage.removeItem('ujadiPerguntaAtual');
+    localStorage.removeItem('ujadiAcertos');
+
     document.getElementById('tela-quiz').style.display = 'none';
     document.getElementById('tela-final').style.display = 'none';
     document.getElementById('tela-admin').style.display = 'none';
@@ -414,6 +432,9 @@ function limparRanking() {
 }
 
 function carregarPergunta() {
+    localStorage.setItem('ujadiPerguntaAtual', perguntaAtual); // SALVA PROGRESSO
+    localStorage.setItem('ujadiAcertos', acertos);
+
     if (perguntaAtual >= perguntas.length) {
         finalizarQuiz();
         return;
@@ -489,13 +510,16 @@ function proximaPergunta() {
 }
 
 function finalizarQuiz() {
-    // ATUALIZA O RANKING EM VEZ DE ADICIONAR DE NOVO
     let jogador = ranking.find(j => j.nome === nomeJogador);
     if(jogador) {
-        jogador.acertos = acertos; // atualiza a pontuação
+        jogador.acertos = acertos;
     }
-
     salvarRanking();
+
+    // LIMPA A TRAVA DO NAVEGADOR
+    localStorage.removeItem('ujadiJogadorAtual');
+    localStorage.removeItem('ujadiPerguntaAtual');
+    localStorage.removeItem('ujadiAcertos');
 
     document.getElementById('tela-quiz').style.display = 'none';
     document.getElementById('tela-final').style.display = 'block';
