@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UJADI v603</title>
+    <title>UJADI v604</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -38,6 +38,14 @@
             max-width: 400px;
             position: relative;
             z-index: 1;
+        }
+       .diretoria {
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            line-height: 1.4;
         }
         h1, h2 {
             text-align: center;
@@ -192,11 +200,17 @@
     <div class="card">
         <!-- TELA INICIAL -->
         <div id="tela-inicial">
+            <!-- TEXTO QUE VOCÊ PEDIU -->
+            <div class="diretoria">
+                Presidente Gutemberg<br>
+                Vice Mateus
+            </div>
+
             <h1>UJADI</h1>
             <div class="aviso">⚠️ Você só pode jogar 1 vez! Ao clicar em começar já fica bloqueado.</div>
             <input type="text" id="nome-jogador" placeholder="Digite seu nome completo" maxlength="30">
-            <button class="btn-grande btn-verde" onclick="iniciarQuiz()">📖 Começar Quiz</button>
-            <button class="btn-grande btn-azul" onclick="abrirAdmin()">
+            <button class="btn-grande btn-verde" id="btn-comecar">📖 Começar Quiz</button>
+            <button class="btn-grande btn-azul" id="btn-admin">
                 Área do Administrador<br>
                 <small>MANUEL DUARTE</small>
             </button>
@@ -225,7 +239,7 @@
             <div id="opcoes"></div>
             <div id="feedback" style="display:none"></div>
             <div id="referencia" style="display:none"></div>
-            <button id="btn-proxima" class="btn-grande btn-azul" onclick="proximaPergunta()" style="display:none">Próxima Pergunta</button>
+            <button id="btn-proxima" class="btn-grande btn-azul" style="display:none">Próxima Pergunta</button>
         </div>
 
         <!-- TELA FINAL -->
@@ -234,22 +248,22 @@
             <p style="text-align:center; font-size:18px;"><b><span id="nome-final"></span></b></p>
             <p style="text-align:center; font-size:18px;">Sua pontuação: <span id="pontos-final">0</span></p>
             <p style="text-align:center; font-size:13px; color:#666;">Sua resposta foi enviada. Você não pode jogar novamente.</p>
-            <button class="btn-grande btn-cinza" onclick="voltarMenu()">Sair</button>
+            <button class="btn-grande btn-cinza" id="btn-sair">Sair</button>
         </div>
 
         <!-- TELA RANKING -->
         <div id="tela-ranking">
             <h2>🏆 Ranking Geral</h2>
             <div id="lista-ranking"></div>
-            <button class="btn-grande btn-cinza" onclick="voltarAdmin()">Voltar</button>
-            <button class="btn-grande btn-vermelho" onclick="limparRanking()">Zerar Ranking</button>
+            <button class="btn-grande btn-cinza" id="btn-voltar-admin">Voltar</button>
+            <button class="btn-grande btn-vermelho" id="btn-limpar">Zerar Ranking</button>
         </div>
 
         <!-- TELA ADMIN -->
         <div id="tela-admin">
             <h2>Área do Administrador</h2>
-            <button class="btn-grande btn-cinza" onclick="voltarMenu()" style="margin-bottom:20px;">Voltar ao Menu</button>
-            <button class="btn-grande btn-azul" onclick="verRanking()">🏆 Ver Ranking</button>
+            <button class="btn-grande btn-cinza" id="btn-voltar-menu" style="margin-bottom:20px;">Voltar ao Menu</button>
+            <button class="btn-grande btn-azul" id="btn-ver-ranking">🏆 Ver Ranking</button>
 
             <h3>Adicionar Pergunta</h3>
             <label>Pergunta:</label>
@@ -271,11 +285,11 @@
             </select>
             <label>Referência Bíblica:</label>
             <input type="text" id="nova-referencia">
-            <button class="btn-grande btn-verde" onclick="adicionarPergunta()">Adicionar Pergunta</button>
+            <button class="btn-grande btn-verde" id="btn-add-pergunta">Adicionar Pergunta</button>
 
             <h3 style="margin-top:30px;">Perguntas Cadastradas</h3>
             <div id="lista-perguntas" class="lista-perguntas"></div>
-            <button class="btn-grande btn-vermelho" onclick="resetarPerguntas()">Resetar pra Padrão</button>
+            <button class="btn-grande btn-vermelho" id="btn-reset">Resetar pra Padrão</button>
         </div>
     </div>
 
@@ -300,24 +314,9 @@ const db = getFirestore(app);
 const SENHA_ADMIN = '4248';
 
 const perguntasPadrao = [
-    {
-        pergunta: "Quem construiu a arca?",
-        opcoes: ["(A) Moisés", "(B) Noé", "(C) Abraão", "(D) Davi"],
-        correta: 1,
-        referencia: "Gênesis 6:14"
-    },
-    {
-        pergunta: "Com quantos anos morreu Isaque?",
-        opcoes: ["(A) 80 anos", "(B) 85 anos", "(C) 90 anos", "(D) 180 anos"],
-        correta: 3,
-        referencia: "Gênesis 35:28. Foram os dias de Isaque cento e oitenta anos;"
-    },
-    {
-        pergunta: "Quem foi lançado na cova dos leões?",
-        opcoes: ["(A) Davi", "(B) Daniel", "(C) José", "(D) Paulo"],
-        correta: 1,
-        referencia: "Daniel 6:16"
-    }
+    {pergunta: "Quem construiu a arca?", opcoes: ["(A) Moisés", "(B) Noé", "(C) Abraão", "(D) Davi"], correta: 1, referencia: "Gênesis 6:14"},
+    {pergunta: "Com quantos anos morreu Isaque?", opcoes: ["(A) 80 anos", "(B) 85 anos", "(C) 90 anos", "(D) 180 anos"], correta: 3, referencia: "Gênesis 35:28"},
+    {pergunta: "Quem foi lançado na cova dos leões?", opcoes: ["(A) Davi", "(B) Daniel", "(C) José", "(D) Paulo"], correta: 1, referencia: "Daniel 6:16"}
 ];
 
 let perguntas = JSON.parse(localStorage.getItem('quizPerguntas')) || perguntasPadrao;
@@ -327,7 +326,18 @@ let tempo = 15;
 let timer;
 let nomeJogador = '';
 
-// VERIFICA SE TEM ALGUÉM JOGANDO QUANDO ABRE A PÁGINA
+// AGORA TUDO É LIGADO POR ID, NÃO MAIS POR onclick=""
+document.getElementById('btn-comecar').addEventListener('click', iniciarQuiz);
+document.getElementById('btn-admin').addEventListener('click', abrirAdmin);
+document.getElementById('btn-proxima').addEventListener('click', proximaPergunta);
+document.getElementById('btn-sair').addEventListener('click', voltarMenu);
+document.getElementById('btn-voltar-admin').addEventListener('click', voltarAdmin);
+document.getElementById('btn-limpar').addEventListener('click', limparRanking);
+document.getElementById('btn-voltar-menu').addEventListener('click', voltarMenu);
+document.getElementById('btn-ver-ranking').addEventListener('click', verRanking);
+document.getElementById('btn-add-pergunta').addEventListener('click', adicionarPergunta);
+document.getElementById('btn-reset').addEventListener('click', resetarPerguntas);
+
 window.onload = function() {
     let jogadorAtual = localStorage.getItem('ujadiJogadorAtual');
     if(jogadorAtual) {
@@ -335,12 +345,7 @@ window.onload = function() {
         perguntaAtual = parseInt(localStorage.getItem('ujadiPerguntaAtual')) || 0;
         acertos = parseInt(localStorage.getItem('ujadiAcertos')) || 0;
         let pulouPergunta = localStorage.getItem('ujadiPulou') === 'true';
-
-        if(pulouPergunta) {
-            perguntaAtual++;
-            localStorage.setItem('ujadiPulou', 'false');
-        }
-
+        if(pulouPergunta) { perguntaAtual++; localStorage.setItem('ujadiPulou', 'false'); }
         document.getElementById('nome-topo').textContent = nomeJogador;
         document.getElementById('tela-inicial').style.display = 'none';
         document.getElementById('tela-quiz').style.display = 'block';
@@ -349,54 +354,32 @@ window.onload = function() {
     }
 }
 
-function salvarPerguntas() {
-    localStorage.setItem('quizPerguntas', JSON.stringify(perguntas));
-}
+function salvarPerguntas() { localStorage.setItem('quizPerguntas', JSON.stringify(perguntas)); }
 
 async function salvarRankingNoFirebase(nome, acertosTotais) {
-    await addDoc(collection(db, "ranking"), {
-        nome: nome,
-        acertos: acertosTotais,
-        total: perguntas.length,
-        data: new Date()
-    });
+    await addDoc(collection(db, "ranking"), {nome: nome, acertos: acertosTotais, total: perguntas.length, data: new Date()});
 }
 
 async function carregarRankingDoFirebase() {
     const q = query(collection(db, "ranking"), orderBy("acertos", "desc"), limit(10));
     const snapshot = await getDocs(q);
     let listaRanking = [];
-    snapshot.forEach((docSnap) => {
-        listaRanking.push(docSnap.data());
-    });
+    snapshot.forEach((docSnap) => { listaRanking.push(docSnap.data()); });
     return listaRanking;
 }
 
 async function limparRankingFirebase() {
     const snapshot = await getDocs(collection(db, "ranking"));
-    snapshot.forEach(async (docSnap) => {
-        await deleteDoc(doc(db, "ranking", docSnap.id));
-    });
+    snapshot.forEach(async (docSnap) => { await deleteDoc(doc(db, "ranking", docSnap.id)); });
 }
 
 function iniciarQuiz() {
     nomeJogador = document.getElementById('nome-jogador').value.trim();
-
-    if(nomeJogador.length < 3) {
-        alert('Digite seu nome completo para começar!');
-        return;
-    }
-
-    if(localStorage.getItem('ujadiJogou_' + nomeJogador)) {
-        alert('Você já iniciou ou respondeu o quiz! Só é permitido 1 tentativa.');
-        return;
-    }
-
+    if(nomeJogador.length < 3) { alert('Digite seu nome completo para começar!'); return; }
+    if(localStorage.getItem('ujadiJogou_' + nomeJogador)) { alert('Você já iniciou ou respondeu o quiz! Só é permitido 1 tentativa.'); return; }
     localStorage.setItem('ujadiJogou_' + nomeJogador, 'true');
     localStorage.setItem('ujadiJogadorAtual', nomeJogador);
-
-    perguntaAtual = 0;
-    acertos = 0;
+    perguntaAtual = 0; acertos = 0;
     document.getElementById('nome-topo').textContent = nomeJogador;
     document.getElementById('tela-inicial').style.display = 'none';
     document.getElementById('tela-final').style.display = 'none';
@@ -412,7 +395,6 @@ function voltarMenu() {
     localStorage.removeItem('ujadiPerguntaAtual');
     localStorage.removeItem('ujadiAcertos');
     localStorage.removeItem('ujadiPulou');
-
     document.getElementById('tela-quiz').style.display = 'none';
     document.getElementById('tela-final').style.display = 'none';
     document.getElementById('tela-admin').style.display = 'none';
@@ -426,33 +408,19 @@ function abrirAdmin() {
         document.getElementById('tela-inicial').style.display = 'none';
         document.getElementById('tela-admin').style.display = 'block';
         listarPerguntas();
-    } else if (senha!== null) {
-        alert('Senha incorreta!');
-    }
+    } else if (senha!== null) { alert('Senha incorreta!'); }
 }
 
 async function verRanking() {
     document.getElementById('tela-admin').style.display = 'none';
     document.getElementById('tela-ranking').style.display = 'block';
-
     let lista = document.getElementById('lista-ranking');
     lista.innerHTML = 'Carregando...';
-
     const ranking = await carregarRankingDoFirebase();
-
-    if(ranking.length === 0) {
-        lista.innerHTML = '<p style="text-align:center">Nenhum jogador ainda</p>';
-        return;
-    }
-
+    if(ranking.length === 0) { lista.innerHTML = '<p style="text-align:center">Nenhum jogador ainda</p>'; return; }
     lista.innerHTML = '';
     ranking.forEach((j, index) => {
-        lista.innerHTML += `
-            <div class="ranking-item">
-                <span>${index+1}. ${j.nome}</span>
-                <span>${j.acertos}/${j.total}</span>
-            </div>
-        `;
+        lista.innerHTML += `<div class="ranking-item"><span>${index+1}. ${j.nome}</span><span>${j.acertos}/${j.total}</span></div>`;
     });
 }
 
@@ -472,11 +440,7 @@ function carregarPergunta() {
     localStorage.setItem('ujadiPerguntaAtual', perguntaAtual);
     localStorage.setItem('ujadiAcertos', acertos);
     localStorage.setItem('ujadiPulou', 'true');
-
-    if (perguntaAtual >= perguntas.length) {
-        finalizarQuiz();
-        return;
-    }
+    if (perguntaAtual >= perguntas.length) { finalizarQuiz(); return; }
     const p = perguntas[perguntaAtual];
     document.getElementById('pergunta').textContent = `${perguntaAtual + 1}. ${p.pergunta}`;
     document.getElementById('acertos').textContent = acertos;
@@ -489,7 +453,7 @@ function carregarPergunta() {
         const btn = document.createElement('button');
         btn.className = 'opcao';
         btn.textContent = opcao;
-        btn.onclick = () => verificarResposta(index);
+        btn.onclick = () => verificarResposta(index); // esse aqui pode ficar assim
         opcoesDiv.appendChild(btn);
     });
     iniciarTimer();
@@ -502,10 +466,7 @@ function iniciarTimer() {
     timer = setInterval(() => {
         tempo--;
         document.getElementById('tempo').textContent = `Tempo: ${tempo}s`;
-        if (tempo <= 0) {
-            clearInterval(timer);
-            mostrarResposta(-1);
-        }
+        if (tempo <= 0) { clearInterval(timer); mostrarResposta(-1); }
     }, 1000);
 }
 
@@ -519,26 +480,17 @@ function mostrarResposta(indiceEscolhido) {
     const p = perguntas[perguntaAtual];
     const botoes = document.querySelectorAll('.opcao');
     botoes.forEach(btn => btn.disabled = true);
-
     botoes.forEach((btn, index) => {
-        if (index === p.correta) {
-            btn.classList.add('correta');
-        } else if (index === indiceEscolhido && indiceEscolhido >= 0) {
-            btn.classList.add('errada');
-        }
+        if (index === p.correta) { btn.classList.add('correta'); }
+        else if (index === indiceEscolhido && indiceEscolhido >= 0) { btn.classList.add('errada'); }
     });
-
     if (indiceEscolhido === p.correta) {
-        acertos++;
-        document.getElementById('acertos').textContent = acertos;
-        document.getElementById('feedback').textContent = 'Acertou! ✅';
-        document.getElementById('feedback').style.color = '#28a745';
+        acertos++; document.getElementById('acertos').textContent = acertos;
+        document.getElementById('feedback').textContent = 'Acertou! ✅'; document.getElementById('feedback').style.color = '#28a745';
     } else if(indiceEscolhido >= 0) {
-        document.getElementById('feedback').textContent = 'Errou! ❌';
-        document.getElementById('feedback').style.color = '#dc3545';
+        document.getElementById('feedback').textContent = 'Errou! ❌'; document.getElementById('feedback').style.color = '#dc3545';
     } else {
-        document.getElementById('feedback').textContent = 'Tempo esgotado! ❌';
-        document.getElementById('feedback').style.color = '#dc3545';
+        document.getElementById('feedback').textContent = 'Tempo esgotado! ❌'; document.getElementById('feedback').style.color = '#dc3545';
     }
     document.getElementById('feedback').style.display = 'block';
     document.getElementById('referencia').textContent = p.referencia;
@@ -546,19 +498,14 @@ function mostrarResposta(indiceEscolhido) {
     document.getElementById('btn-proxima').style.display = 'block';
 }
 
-function proximaPergunta() {
-    perguntaAtual++;
-    carregarPergunta();
-}
+function proximaPergunta() { perguntaAtual++; carregarPergunta(); }
 
 async function finalizarQuiz() {
     await salvarRankingNoFirebase(nomeJogador, acertos);
-
     localStorage.removeItem('ujadiJogadorAtual');
     localStorage.removeItem('ujadiPerguntaAtual');
     localStorage.removeItem('ujadiAcertos');
     localStorage.removeItem('ujadiPulou');
-
     document.getElementById('tela-quiz').style.display = 'none';
     document.getElementById('tela-final').style.display = 'block';
     document.getElementById('nome-final').textContent = nomeJogador;
@@ -568,25 +515,12 @@ async function finalizarQuiz() {
 function adicionarPergunta() {
     const nova = {
         pergunta: document.getElementById('nova-pergunta').value,
-        opcoes: [
-            '(A) ' + document.getElementById('opcao-a').value,
-            '(B) ' + document.getElementById('opcao-b').value,
-            '(C) ' + document.getElementById('opcao-c').value,
-            '(D) ' + document.getElementById('opcao-d').value
-        ],
+        opcoes: ['(A) ' + document.getElementById('opcao-a').value, '(B) ' + document.getElementById('opcao-b').value, '(C) ' + document.getElementById('opcao-c').value, '(D) ' + document.getElementById('opcao-d').value],
         correta: parseInt(document.getElementById('resposta-correta').value),
         referencia: document.getElementById('nova-referencia').value
     };
-
-    if (!nova.pergunta ||!document.getElementById('opcao-a').value) {
-        alert('Preenche pelo menos a pergunta e a opção A!');
-        return;
-    }
-
-    perguntas.push(nova);
-    salvarPerguntas();
-    listarPerguntas();
-
+    if (!nova.pergunta ||!document.getElementById('opcao-a').value) { alert('Preenche pelo menos a pergunta e a opção A!'); return; }
+    perguntas.push(nova); salvarPerguntas(); listarPerguntas();
     document.getElementById('nova-pergunta').value = '';
     document.getElementById('opcao-a').value = '';
     document.getElementById('opcao-b').value = '';
@@ -602,27 +536,20 @@ function listarPerguntas() {
     perguntas.forEach((p, index) => {
         const div = document.createElement('div');
         div.className = 'item-pergunta';
-        div.innerHTML = `
-            <span>${index + 1}. ${p.pergunta}</span>
-            <button class="btn-vermelho" style="padding:4px 8px;font-size:12px;" onclick="removerPergunta(${index})">X</button>
-        `;
+        div.innerHTML = `<span>${index + 1}. ${p.pergunta}</span><button class="btn-vermelho" style="padding:4px 8px;font-size:12px;" onclick="removerPergunta(${index})">X</button>`;
         lista.appendChild(div);
     });
 }
 
-function removerPergunta(index) {
+window.removerPergunta = function(index) {
     if (confirm('Apagar essa pergunta?')) {
-        perguntas.splice(index, 1);
-        salvarPerguntas();
-        listarPerguntas();
+        perguntas.splice(index, 1); salvarPerguntas(); listarPerguntas();
     }
 }
 
 function resetarPerguntas() {
     if (confirm('Voltar para as 3 perguntas padrão? Isso apaga tudo que você adicionou.')) {
-        perguntas = [...perguntasPadrao];
-        salvarPerguntas();
-        listarPerguntas();
+        perguntas = [...perguntasPadrao]; salvarPerguntas(); listarPerguntas();
     }
 }
 </script>
