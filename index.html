@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Bíblico</title>
+    <title>UJADI</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -16,8 +16,6 @@
             min-height: 100vh;
             position: relative;
         }
-
-        /* NÚMERO 22 DE FUNDO GIGANTE E TRANSPARENTE */
         body::before {
             content: '22';
             position: fixed;
@@ -31,8 +29,7 @@
             pointer-events: none;
             user-select: none;
         }
-
- .card {
+      .card {
             background: white;
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
@@ -44,12 +41,27 @@
         }
         h1, h2 {
             text-align: center;
-            color: #333;
             margin: 0 0 20px 0;
         }
-        h1 { font-size: 28px; }
-        h2 { font-size: 22px; }
- .btn-grande {
+        h1 {
+            font-size: 32px;
+            font-weight: 900;
+            background: linear-gradient(45deg, #FFD700, #FFA500, #FFD700, #B8860B);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 2px 4px rgba(255,215,0,0.3);
+            letter-spacing: 2px;
+            animation: brilho 3s ease infinite;
+        }
+        @keyframes brilho {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        h2 { font-size: 22px; color: #333; }
+      .btn-grande {
             width: 100%;
             padding: 16px;
             border: none;
@@ -61,12 +73,13 @@
             margin-bottom: 15px;
             line-height: 1.3;
         }
- .btn-verde { background: #28a745; }
- .btn-azul { background: #007bff; }
- .btn-cinza { background: #6c757d; padding: 8px 16px; width: auto; }
- .btn-vermelho { background: #dc3545; }
-        #tela-quiz, #tela-final, #tela-admin { display: none; }
- .info-topo {
+      .btn-verde { background: #28a745; }
+      .btn-azul { background: #007bff; }
+      .btn-cinza { background: #6c757d; padding: 8px 16px; width: auto; }
+      .btn-vermelho { background: #dc3545; }
+      .btn-desativado { background: #aaa; cursor: not-allowed; }
+        #tela-quiz, #tela-final, #tela-admin, #tela-ranking { display: none; }
+      .info-topo {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -78,7 +91,7 @@
             font-weight: 600;
             margin: 20px 0;
         }
- .opcao {
+      .opcao {
             width: 100%;
             text-align: left;
             padding: 12px;
@@ -89,9 +102,9 @@
             cursor: pointer;
             font-size: 15px;
         }
- .opcao:disabled { cursor: not-allowed; }
- .opcao.correta { background: #d4edda; border-color: #28a745; }
- .opcao.errada { background: #f8d7da; border-color: #dc3545; }
+      .opcao:disabled { cursor: not-allowed; opacity: 0.7; }
+      .opcao.correta { background: #d4edda; border-color: #28a745; }
+      .opcao.errada { background: #f8d7da; border-color: #dc3545; }
         #feedback {
             text-align: center;
             font-weight: bold;
@@ -106,15 +119,15 @@
             font-size: 14px;
             margin: 15px 0;
         }
-  .patrocinadores {
+      .patrocinadores {
             text-align: center;
             margin-top: 25px;
             padding-top: 20px;
             border-top: 1px solid #eee;
             position: relative;
         }
-  .patrocinadores p { font-size: 14px; color: #666; margin-bottom: 10px; }
-  .patrocinadores img {
+      .patrocinadores p { font-size: 14px; color: #666; margin-bottom: 10px; }
+      .patrocinadores img {
             width: 60px;
             height: 60px;
             border-radius: 50%;
@@ -134,7 +147,7 @@
             box-sizing: border-box;
         }
         label { font-weight: 500; font-size: 14px; display: block; margin-bottom: 5px; }
-  .lista-perguntas {
+      .lista-perguntas {
             max-height: 200px;
             overflow-y: auto;
             border: 1px solid #eee;
@@ -142,34 +155,47 @@
             border-radius: 8px;
             margin-bottom: 15px;
         }
-  .item-pergunta {
+      .item-pergunta {
             padding: 8px;
             border-bottom: 1px solid #f0f0f0;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-  .item-pergunta:last-child { border-bottom: none; }
-  .fundador {
+      .item-pergunta:last-child { border-bottom: none; }
+      .fundador {
             position: absolute;
             right: 0;
             bottom: -18px;
             font-size: 9px;
             color: #bbb;
         }
-  .btn-azul small {
+      .btn-azul small {
             font-size: 11px;
             opacity: 0.9;
             font-weight: 400;
         }
+      .ranking-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+        }
+      .ranking-item:nth-child(1) { background: #fff3cd; font-weight: bold; }
+      .ranking-item:nth-child(2) { background: #e2e3e5; }
+      .ranking-item:nth-child(3) { background: #f8d7da; }
+      .aviso { background: #fff3cd; border: 1px solid #ffc107; padding: 10px; border-radius: 8px; font-size: 13px; margin-bottom: 15px; text-align: center; }
     </style>
 </head>
 <body>
     <div class="card">
         <!-- TELA INICIAL -->
         <div id="tela-inicial">
-            <h1>Quiz Bíblico</h1>
-   <button class="btn-grande btn-verde" onclick="iniciarQuiz()">📖 Perguntas Bíblicas</button>
+            <h1>UJADI</h1>
+            <div class="aviso">⚠️ Você só pode jogar 1 vez!</div>
+            <input type="text" id="nome-jogador" placeholder="Digite seu nome completo" maxlength="30">
+            <button class="btn-grande btn-verde" onclick="iniciarQuiz()">📖 Começar Quiz</button>
             <button class="btn-grande btn-azul" onclick="abrirAdmin()">
                 Área do Administrador<br>
                 <small>MANUEL DUARTE</small>
@@ -186,9 +212,9 @@
 
         <!-- TELA DO QUIZ -->
         <div id="tela-quiz">
-            <h1>Quiz Bíblico</h1>
+            <h1>UJADI</h1>
             <div class="info-topo">
-                <button class="btn-grande btn-cinza" onclick="voltarMenu()">Menu</button>
+                <div><b>Jogador:</b> <span id="nome-topo"></span></div>
                 <div>
                     <span>Acertos: <span id="acertos">0</span>/<span id="total-perguntas">3</span></span>
                     <br>
@@ -204,16 +230,26 @@
 
         <!-- TELA FINAL -->
         <div id="tela-final">
-            <h1>Fim de jogo!</h1>
+            <h1>UJADI</h1>
+            <p style="text-align:center; font-size:18px;"><b><span id="nome-final"></span></b></p>
             <p style="text-align:center; font-size:18px;">Sua pontuação: <span id="pontos-final">0</span></p>
-            <button class="btn-grande btn-verde" onclick="iniciarQuiz()">Jogar Novamente</button>
-            <button class="btn-grande btn-cinza" onclick="voltarMenu()">Menu</button>
+            <p style="text-align:center; font-size:13px; color:#666;">Sua resposta foi enviada. Você não pode jogar novamente.</p>
+            <button class="btn-grande btn-cinza" onclick="voltarMenu()">Sair</button>
+        </div>
+
+        <!-- TELA RANKING -->
+        <div id="tela-ranking">
+            <h2>🏆 Ranking Geral</h2>
+            <div id="lista-ranking"></div>
+            <button class="btn-grande btn-cinza" onclick="voltarAdmin()">Voltar</button>
+            <button class="btn-grande btn-vermelho" onclick="limparRanking()">Zerar Ranking</button>
         </div>
 
         <!-- TELA ADMIN -->
         <div id="tela-admin">
             <h2>Área do Administrador</h2>
             <button class="btn-grande btn-cinza" onclick="voltarMenu()" style="margin-bottom:20px;">Voltar ao Menu</button>
+            <button class="btn-grande btn-azul" onclick="verRanking()">🏆 Ver Ranking</button>
 
             <h3>Adicionar Pergunta</h3>
             <label>Pergunta:</label>
@@ -244,7 +280,7 @@
     </div>
 
 <script>
-const SENHA_ADMIN = '1234'; // ← MUDA A SENHA AQUI
+const SENHA_ADMIN = '4248';
 
 const perguntasPadrao = [
     {
@@ -268,18 +304,38 @@ const perguntasPadrao = [
 ];
 
 let perguntas = JSON.parse(localStorage.getItem('quizPerguntas')) || perguntasPadrao;
+let ranking = JSON.parse(localStorage.getItem('ujadiRanking')) || [];
 let perguntaAtual = 0;
 let acertos = 0;
 let tempo = 15;
 let timer;
+let nomeJogador = '';
 
 function salvarPerguntas() {
     localStorage.setItem('quizPerguntas', JSON.stringify(perguntas));
 }
 
+function salvarRanking() {
+    localStorage.setItem('ujadiRanking', JSON.stringify(ranking));
+}
+
 function iniciarQuiz() {
+    nomeJogador = document.getElementById('nome-jogador').value.trim();
+
+    if(nomeJogador.length < 3) {
+        alert('Digite seu nome completo para começar!');
+        return;
+    }
+
+    // VERIFICA SE JÁ JOGOU
+    if(localStorage.getItem('ujadiJogou_' + nomeJogador)) {
+        alert('Você já respondeu o quiz! Só é permitido 1 tentativa.');
+        return;
+    }
+
     perguntaAtual = 0;
     acertos = 0;
+    document.getElementById('nome-topo').textContent = nomeJogador;
     document.getElementById('tela-inicial').style.display = 'none';
     document.getElementById('tela-final').style.display = 'none';
     document.getElementById('tela-admin').style.display = 'none';
@@ -293,6 +349,7 @@ function voltarMenu() {
     document.getElementById('tela-quiz').style.display = 'none';
     document.getElementById('tela-final').style.display = 'none';
     document.getElementById('tela-admin').style.display = 'none';
+    document.getElementById('tela-ranking').style.display = 'none';
     document.getElementById('tela-inicial').style.display = 'block';
 }
 
@@ -304,6 +361,44 @@ function abrirAdmin() {
         listarPerguntas();
     } else if (senha!== null) {
         alert('Senha incorreta!');
+    }
+}
+
+function verRanking() {
+    document.getElementById('tela-admin').style.display = 'none';
+    document.getElementById('tela-ranking').style.display = 'block';
+
+    let lista = document.getElementById('lista-ranking');
+    lista.innerHTML = '';
+
+    if(ranking.length === 0) {
+        lista.innerHTML = '<p style="text-align:center">Nenhum jogador ainda</p>';
+        return;
+    }
+
+    // Ordena por acertos
+    ranking.sort((a,b) => b.acertos - a.acertos);
+
+    ranking.forEach((j, index) => {
+        lista.innerHTML += `
+            <div class="ranking-item">
+                <span>${index+1}. ${j.nome}</span>
+                <span>${j.acertos}/${j.total}</span>
+            </div>
+        `;
+    });
+}
+
+function voltarAdmin() {
+    document.getElementById('tela-ranking').style.display = 'none';
+    document.getElementById('tela-admin').style.display = 'block';
+}
+
+function limparRanking() {
+    if(confirm('Apagar todo o ranking?')) {
+        ranking = [];
+        salvarRanking();
+        verRanking();
     }
 }
 
@@ -352,14 +447,16 @@ function verificarResposta(indiceEscolhido) {
 function mostrarResposta(indiceEscolhido) {
     const p = perguntas[perguntaAtual];
     const botoes = document.querySelectorAll('.opcao');
+    botoes.forEach(btn => btn.disabled = true); // TRAVA TODOS OS BOTÕES
+
     botoes.forEach((btn, index) => {
-        btn.disabled = true;
         if (index === p.correta) {
             btn.classList.add('correta');
         } else if (index === indiceEscolhido) {
             btn.classList.add('errada');
         }
     });
+
     if (indiceEscolhido === p.correta) {
         acertos++;
         document.getElementById('acertos').textContent = acertos;
@@ -381,8 +478,21 @@ function proximaPergunta() {
 }
 
 function finalizarQuiz() {
+    // SALVA QUE A PESSOA JÁ JOGOU
+    localStorage.setItem('ujadiJogou_' + nomeJogador, 'true');
+
+    // SALVA NO RANKING
+    ranking.push({
+        nome: nomeJogador,
+        acertos: acertos,
+        total: perguntas.length,
+        data: new Date().toLocaleString('pt-BR')
+    });
+    salvarRanking();
+
     document.getElementById('tela-quiz').style.display = 'none';
     document.getElementById('tela-final').style.display = 'block';
+    document.getElementById('nome-final').textContent = nomeJogador;
     document.getElementById('pontos-final').textContent = `${acertos}/${perguntas.length}`;
 }
 
