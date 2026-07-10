@@ -403,7 +403,7 @@
 
     function salvarPerguntas() { localStorage.setItem('quizPerguntas', JSON.stringify(perguntas)); }
     async function salvarRankingNoFirebase(nome, acertosTotais) { await addDoc(collection(db, "ranking"), { nome: nome, acertos: acertosTotais, total: perguntas.length, data: new Date() }); }
-    async function carregarRankingDoFirebase() { const q = query(collection(db, "ranking"), orderBy("acertos", "desc"), limit(10)); const snapshot = await getDocs(q); let listaRanking = []; snapshot.forEach((docSnap) => { listaRanking.push(docSnap.data()); }); return listaRanking; }
+    async function carregarRankingDoFirebase() { const q = query(collection(db, "ranking"), orderBy("acertos", "desc"),limit(50)); const snapshot = await getDocs(q); let listaRanking = []; snapshot.forEach((docSnap) => { listaRanking.push(docSnap.data()); }); return listaRanking; }
     async function limparRankingFirebase() { const snapshot = await getDocs(collection(db, "ranking")); snapshot.forEach(async (docSnap) => { await deleteDoc(doc(db, "ranking", docSnap.id)); }); localStorage.clear(); alert("Ranking zerado! Todos foram liberados para jogar novamente."); }
 
     function iniciarQuiz() {
