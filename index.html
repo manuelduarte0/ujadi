@@ -31,7 +31,7 @@
             user-select: none;
         }
 
-  .card {
+ .card {
             background: white;
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
@@ -42,7 +42,7 @@
             z-index: 1;
         }
 
-  .diretoria {
+ .diretoria {
             text-align: center;
             font-size: 11px;
             font-weight: 600;
@@ -77,7 +77,7 @@
             100% { background-position: 0% 50%; filter: drop-shadow(0 0 5px #FF0000); }
         }
 
-  .nome-fundador {
+ .nome-fundador {
             animation: brilhoDiscreto 3s ease-in-out infinite;
         }
 
@@ -88,7 +88,7 @@
 
         h2 { font-size: 22px; color: #333; }
 
-  .btn-grande {
+ .btn-grande {
             width: 100%;
             padding: 16px;
             border: none;
@@ -101,14 +101,14 @@
             line-height: 1.3;
         }
 
-  .btn-verde { background: #28a745; }
-  .btn-azul { background: #007bff; }
-  .btn-cinza { background: #6c757d; padding: 8px 16px; width: auto; }
-  .btn-vermelho { background: #dc3545; }
+ .btn-verde { background: #28a745; }
+ .btn-azul { background: #007bff; }
+ .btn-cinza { background: #6c757d; padding: 8px 16px; width: auto; }
+ .btn-vermelho { background: #dc3545; }
 
         #tela-quiz, #tela-final, #tela-admin, #tela-ranking, #tela-bloqueado { display: none; }
 
-  .info-topo {
+ .info-topo {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -118,7 +118,7 @@
         #tempo { color: #dc3545; font-weight: bold; }
         #pergunta { font-size: 18px; font-weight: 600; margin: 20px 0; }
 
-  .opcao {
+ .opcao {
             width: 100%;
             text-align: left;
             padding: 12px;
@@ -130,14 +130,14 @@
             font-size: 15px;
         }
 
-  .opcao:disabled { cursor: not-allowed; opacity: 0.7; }
-  .opcao.correta { background: #d4edda; border-color: #28a745; }
-  .opcao.errada { background: #f8d7da; border-color: #dc3545; }
+ .opcao:disabled { cursor: not-allowed; opacity: 0.7; }
+ .opcao.correta { background: #d4edda; border-color: #28a745; }
+ .opcao.errada { background: #f8d7da; border-color: #dc3545; }
 
         #feedback { text-align: center; font-weight: bold; color: #28a745; margin: 15px 0; }
         #referencia { background: #e7f3ff; border-left: 4px solid #007bff; padding: 12px; border-radius: 4px; font-size: 14px; margin: 15px 0; }
 
-  .patrocinadores {
+ .patrocinadores {
             text-align: center;
             margin-top: 25px;
             padding-top: 20px;
@@ -145,9 +145,9 @@
             position: relative;
         }
 
-  .patrocinadores p { font-size: 14px; color: #666; margin-bottom: 10px; }
+ .patrocinadores p { font-size: 14px; color: #666; margin-bottom: 10px; }
 
-  .patrocinadores img {
+ .patrocinadores img {
             width: 60px;
             height: 60px;
             border-radius: 50%;
@@ -170,7 +170,7 @@
 
         label { font-weight: 500; font-size: 14px; display: block; margin-bottom: 5px; }
 
-  .lista-perguntas {
+ .lista-perguntas {
             max-height: 200px;
             overflow-y: auto;
             border: 1px solid #eee;
@@ -179,7 +179,7 @@
             margin-bottom: 15px;
         }
 
-  .item-pergunta {
+ .item-pergunta {
             padding: 8px;
             border-bottom: 1px solid #f0f0f0;
             display: flex;
@@ -187,9 +187,9 @@
             align-items: center;
         }
 
-  .item-pergunta:last-child { border-bottom: none; }
+ .item-pergunta:last-child { border-bottom: none; }
 
-  .fundador {
+ .fundador {
             position: absolute;
             right: 0;
             bottom: -18px;
@@ -197,9 +197,9 @@
             color: #bbb;
         }
 
-  .btn-azul small { font-size: 11px; opacity: 0.9; font-weight: 400; }
+ .btn-azul small { font-size: 11px; opacity: 0.9; font-weight: 400; }
 
-  .ranking-item {
+ .ranking-item {
             display: flex;
             justify-content: space-between;
             padding: 10px;
@@ -207,12 +207,12 @@
             font-size: 14px;
         }
 
-  .ranking-item:nth-child(1) { background: #fff3cd; font-weight: bold; }
-  .ranking-item:nth-child(2) { background: #e2e3e5; }
-  .ranking-item:nth-child(3) { background: #f8d7da; }
+ .ranking-item:nth-child(1) { background: #fff3cd; font-weight: bold; }
+ .ranking-item:nth-child(2) { background: #e2e3e5; }
+ .ranking-item:nth-child(3) { background: #f8d7da; }
 
-  .aviso { background: #fff3cd; border: 1px solid #ffc107; padding: 10px; border-radius: 8px; font-size: 13px; margin-bottom: 15px; text-align: center; }
-  .aviso-erro { background: #f8d7da; border: 1px solid #dc3545; color: #721c24; }
+ .aviso { background: #fff3cd; border: 1px solid #ffc107; padding: 10px; border-radius: 8px; font-size: 13px; margin-bottom: 15px; text-align: center; }
+ .aviso-erro { background: #f8d7da; border: 1px solid #dc3545; color: #721c24; }
     </style>
 </head>
 <body>
@@ -338,12 +338,24 @@
     const db = getFirestore(app);
     const SENHA_ADMIN = '4248';
 
-    // APENAS ESSE BLOCO FOI ALTERADO - ADICIONEI 10 PERGUNTAS
+    // SUAS 15 PERGUNTAS FORAM ADICIONADAS AQUI
     const perguntasPadrao = [
-        { pergunta: "Quem construiu a arca?", opcoes: ["(A) Moisés", "(B) Noé", "(C) Abraão", "(D) Davi"], correta: 1, referencia: "Gênesis 6:14" },
-        
+        { pergunta: "Onde foi o ponto de partida do profeta Jonas?", opcoes: ["(A) Jope", "(B) Gate-Hefer", "(C) Társis", "(D) Nínive"], correta: 0, referencia: "Jonas 1:3 - E Jonas se levantou para fugir de diante da face do Senhor para Társis; e desceu a Jope, e achou um navio que ia para Társis; pagou, pois, a sua passagem, e desceu para dentro dele, para ir com eles para Társis, de diante da face do Senhor." },
+        { pergunta: "Por qual motivo Paulo se separou de Barnabé?", opcoes: ["(A) Por causa de Silas", "(B) Por causa de Marcos/João Marcos", "(C) Por causa de uma doutrina falsa", "(D) Por causa de onde pregar"], correta: 1, referencia: "Atos 15:37-39 - E Barnabé aconselhava que tomassem consigo a João, chamado Marcos. Mas a Paulo parecia razoável que não levassem consigo aquele que desde a Panfília se tinha apartado deles, e não os acompanhara naquela obra. E tal contenda houve entre eles, que se apartaram um do outro." },
+        { pergunta: "Quantos anos tinha Adão quando gerou Sete?", opcoes: ["(A) 100 anos", "(B) 120 anos", "(C) 125 anos", "(D) 130 anos"], correta: 3, referencia: "Gênesis 5:3 - E viveu Adão cento e trinta anos, e gerou um filho à sua semelhança, conforme a sua imagem, e pôs-lhe o nome de Sete." },
+        { pergunta: "O que está escrito em 1 Coríntios 15:33?", opcoes: ["(A) Deus é amor", "(B) Tudo posso naquele que me fortalece", "(C) As más conversações corrompem os bons costumes", "(D) Orai sem cessar"], correta: 2, referencia: "1 Coríntios 15:33 - Não vos enganeis: as más conversações corrompem os bons costumes." },
+        { pergunta: "Se Otniel foi o primeiro juiz e Sansão foi o último, quem foi o nono juiz de Israel?", opcoes: ["(A) Tola", "(B) Jair", "(C) Jefté", "(D) Ibsã"], correta: 3, referencia: "Juízes 12:8 - Depois dele julgou a Israel Ibsã, de Belém." },
+        { pergunta: "Qual desses era filho de Saul?", opcoes: ["(A) Jonas", "(B) Mefibosete", "(C) Isbael", "(D) Abiu"], correta: 1, referencia: "2 Samuel 21:8 - Mas o rei tomou os dois filhos de Rizpa... Armoni e Mefibosete, que ela tivera de Saul" },
+        { pergunta: "Quantas vezes Deus falou com José, pai de Jesus em sonhos?", opcoes: ["(A) 2 vezes", "(B) 3 vezes", "(C) 4 vezes", "(D) 5 vezes"], correta: 2, referencia: "Mateus 1:20-21; 2:13; 2:19-20; 2:22" },
+        { pergunta: "Em quantas ocasiões Jesus fez a multiplicação de pães e peixe?", opcoes: ["(A) 1 vez", "(B) 2 vezes", "(C) 3 vezes", "(D) 4 vezes"], correta: 1, referencia: "1ª: Mateus 14:13-21 / Marcos 6:30-44 / Lucas 9:10-17 / João 6:1-13. 2ª: Mateus 15:32-39 / Marcos 8:1-10" },
+        { pergunta: "Em qual posição está o livro de Números?", opcoes: ["(A) 3º", "(B) 4º", "(C) 5º", "(D) 6º"], correta: 1, referencia: "Pentateuco: 1. Gênesis, 2. Êxodo, 3. Levítico, 4. Números, 5. Deuteronômio" },
+        { pergunta: "Quem foi lançado na cova dos leões?", opcoes: ["(A) Daniel", "(B) Sadrac", "(C) Ezequiel", "(D) Jeremias"], correta: 0, referencia: "Daniel 6:16" },
+        { pergunta: "Qual foi a última praga do Egito?", opcoes: ["(A) Gafanhotos", "(B) Trevas", "(C) Morte dos primogênitos", "(D) Água em sangue"], correta: 2, referencia: "Êxodo 12:29" },
+        { pergunta: "Quem negou Jesus 3 vezes?", opcoes: ["(A) Judas", "(B) Pedro", "(C) Tomé", "(D) João"], correta: 1, referencia: "Mateus 26:75" },
+        { pergunta: "Qual o menor livro da Bíblia?", opcoes: ["(A) 3 João", "(B) 2 João", "(C) Obadias", "(D) Judas"], correta: 1, referencia: "2 João tem apenas 13 versículos" },
+        { pergunta: "Em que cidade Jesus nasceu?", opcoes: ["(A) Nazaré", "(B) Belém", "(C) Jerusalém", "(D) Cafarnaum"], correta: 1, referencia: "Mateus 2:1" },
+        { pergunta: "Quantos discípulos Jesus tinha?", opcoes: ["(A) 10", "(B) 11", "(C) 12", "(D) 70"], correta: 2, referencia: "Lucas 6:13" }
     ];
-    // FIM DA ALTERAÇÃO
 
     let perguntas = JSON.parse(localStorage.getItem('quizPerguntas')) || perguntasPadrao;
     let perguntaAtual = 0; let acertos = 0; let tempo = 15; let timer; let nomeJogador = '';
@@ -551,7 +563,7 @@
     }
 
     window.removerPergunta = function(index) { if (confirm('Apagar essa pergunta?')) { perguntas.splice(index, 1); salvarPerguntas(); listarPerguntas(); } }
-    function resetarPerguntas() { if (confirm('Voltar para as 3 perguntas padrão? Isso apaga tudo que você adicionou.')) { perguntas = [...perguntasPadrao]; salvarPerguntas(); listarPerguntas(); } }
+    function resetarPerguntas() { if (confirm('Voltar para as 15 perguntas padrão? Isso apaga tudo que você adicionou.')) { perguntas = [...perguntasPadrao]; salvarPerguntas(); listarPerguntas(); } }
 </script>
 </body>
 </html>
